@@ -1,5 +1,8 @@
 # PlayerGetInfo Plugin README
 
+> [!NOTE]
+> SI HABLAS OTRO IDIOMA PORFAVOR VE A [README_ES](README_ES.md) PARA LEER ESTO IDIOMA ESPAÑOL
+
 ## Overview
 The **PlayerGetInfo** plugin for TShock provides server administrators with detailed information about players when they join the server or request information about other players. This includes the platform they are playing on, their IP address, and their total playtime since registration. The plugin helps enhance server management by providing quick access to player-specific data.
 

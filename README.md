@@ -50,6 +50,7 @@ Server started
 ###################################################
 ```
 EXAMPLE: Join Message to all players
+
 ![image](https://github.com/user-attachments/assets/e7815fa9-4e2c-4b42-90d2-2dea2beb740b)
 
 

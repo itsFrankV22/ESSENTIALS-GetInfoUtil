@@ -6,8 +6,8 @@
 > [!WARNING]
 > Debes tener `"EnableGeoIp": true,` en `home/container/tshock/Config.json`
 
-## DescripciÛn
-El plugin **PlayerGetInfo** para TShock proporciona a los administradores del servidor informaciÛn detallada sobre los jugadores cuando se unen al servidor o solicitan informaciÛn sobre otros jugadores. Esto incluye la plataforma en la que est·n jugando, su direcciÛn IP y su tiempo de juego total desde la primera vez que se registraron. El plugin ayuda a mejorar la gestiÛn del servidor al proporcionar un acceso r·pido a datos especÌficos de los jugadores.
+## Descripci√≥n
+El plugin **PlayerGetInfo** para TShock proporciona a los administradores del servidor informaci√≥n detallada sobre los jugadores cuando se unen al servidor o solicitan informaci√≥n sobre otros jugadores. Esto incluye la plataforma en la que est√°n jugando, su direcci√≥n IP y su tiempo de juego total desde la primera vez que se registraron. El plugin ayuda a mejorar la gesti√≥n del servidor al proporcionar un acceso r√°pido a datos espec√≠ficos de los jugadores.
 
 ### EJEMPLO: Join Message
 ```PowerShell
@@ -30,57 +30,79 @@ El plugin **PlayerGetInfo** para TShock proporciona a los administradores del se
 [ + ] - TILES DESTROYED: [ 0 ]
 ###################################################
 ```
+EXAMPLE: UpdateCheckerMessage
+```PowerShell
+###################################################
+#     GetInfoPlugin - Installed  - GodLuck!       #
+###################################################
+: #################################################
+# #####  ####  #####    ##### ###  ## #### #####  #
+# #      #       #        #   #### ## #    #   #  #
+# #  ##  ##      #   ##   #   ## #### ###  #   #  #
+# #   #  #       #        #   ##  ### #    #   #  #
+# #####  ####    #      ##### ##   ## #    #####  #
+###################################################
+#              Checking for updates...            #
+###################################################
+Server started
+###################################################
+#            Plugin is up to date!!!              #
+###################################################
+```
+EXAMPLE: Join Message to all players
+
+![image](https://github.com/user-attachments/assets/e7815fa9-4e2c-4b42-90d2-2dea2beb740b)
 
 
-## CaracterÌsticas
-- Rastrea la hora de primer inicio de sesiÛn de cada jugador.
-- Muestra la direcciÛn IP y el tiempo de juego desde el registro al unirse al servidor.
-- Permite a los administradores consultar informaciÛn sobre otros jugadores por nombre.
+## Caracter√≠sticas
+- Rastrea la hora de primer inicio de sesi√≥n de cada jugador.
+- Muestra la direcci√≥n IP y el tiempo de juego desde el registro al unirse al servidor.
+- Permite a los administradores consultar informaci√≥n sobre otros jugadores por nombre.
 - Soporta varias plataformas de juego (PC, Xbox, PSN, etc.) e identifica la plataforma.
 - Guarda los datos de los jugadores en un archivo JSON (`firstLoginTimes.json`) para persistencia.
 
 ## Comandos y Permisos
 
-| Comando                    | Permiso           | DescripciÛn                                   |
+| Comando                    | Permiso           | Descripci√≥n                                   |
 |----------------------------|-------------------|-----------------------------------------------|
-| `/getinfo <Jugador>` `/gi <Jugador>`      | `getinfo.admin`   | Muestra informaciÛn detallada sobre un jugador. |
-| `/getinfouser <Jugador>` `/giu <Jugador>` | `getinfo.user`    | Muestra el tiempo de juego y la informaciÛn de la plataforma de un jugador. |
+| `/getinfo <Jugador>` `/gi <Jugador>`      | `getinfo.admin`   | Muestra informaci√≥n detallada sobre un jugador. |
+| `/getinfouser <Jugador>` `/giu <Jugador>` | `getinfo.user`    | Muestra el tiempo de juego y la informaci√≥n de la plataforma de un jugador. |
 
 ## Detalles de los Comandos
 
 ### `/getinfo <Jugador>`
 - **Permiso Requerido**: `getinfo.admin`
 - **Uso**: `/getinfo <Jugador>`
-- **DescripciÛn**: Muestra informaciÛn detallada sobre un jugador especificado, incluyendo su plataforma, tiempo de juego total y direcciÛn IP.
+- **Descripci√≥n**: Muestra informaci√≥n detallada sobre un jugador especificado, incluyendo su plataforma, tiempo de juego total y direcci√≥n IP.
 
 ### `/getinfouser <Jugador>`
 - **Permiso Requerido**: `getinfo.user`
 - **Uso**: `/getinfouser <Jugador>`
-- **DescripciÛn**: Muestra informaciÛn b·sica sobre un jugador, como su plataforma y tiempo de juego desde el primer registro.
+- **Descripci√≥n**: Muestra informaci√≥n b√°sica sobre un jugador, como su plataforma y tiempo de juego desde el primer registro.
 
-## InstalaciÛn y ConfiguraciÛn
+## Instalaci√≥n y Configuraci√≥n
 1. Coloca el archivo `.dll` del plugin compilado en el directorio `tshock/plugins`.
 2. Reinicia o recarga el servidor para cargar el plugin.
-3. Aseg˙rate de que la configuraciÛn del servidor permita asignar los permisos `getinfo.admin` y `getinfo.user` a los grupos de usuarios apropiados.
+3. Aseg√∫rate de que la configuraci√≥n del servidor permita asignar los permisos `getinfo.admin` y `getinfo.user` a los grupos de usuarios apropiados.
 
-## ConfiguraciÛn
-El plugin guarda los datos en un archivo llamado `firstLoginTimes.json` ubicado en el directorio `tshock/`. Este archivo se usa para almacenar la hora de primer inicio de sesiÛn de los jugadores para el seguimiento del tiempo de juego.
+## Configuraci√≥n
+El plugin guarda los datos en un archivo llamado `firstLoginTimes.json` ubicado en el directorio `tshock/`. Este archivo se usa para almacenar la hora de primer inicio de sesi√≥n de los jugadores para el seguimiento del tiempo de juego.
 
 ### Formato del Archivo
-- El archivo JSON tiene el formato de un diccionario donde cada entrada corresponde al ID de un jugador y su hora de primer inicio de sesiÛn.
+- El archivo JSON tiene el formato de un diccionario donde cada entrada corresponde al ID de un jugador y su hora de primer inicio de sesi√≥n.
 
-## CÛmo Funciona
-- **Al Unirse un Jugador**: El plugin registra la direcciÛn IP del jugador y guarda su hora de primer inicio de sesiÛn si es la primera vez que se une. Luego, envÌa mensajes informativos al jugador con su tiempo de juego y direcciÛn IP.
-- **Al Ejecutar Comandos**: Los comandos `/getinfo` y `/getinfouser` permiten a los administradores consultar la informaciÛn de jugadores especÌficos.
-- **IdentificaciÛn de la Plataforma**: El plugin identifica la plataforma que utiliza un jugador seg˙n los datos recibidos del cliente del juego.
+## C√≥mo Funciona
+- **Al Unirse un Jugador**: El plugin registra la direcci√≥n IP del jugador y guarda su hora de primer inicio de sesi√≥n si es la primera vez que se une. Luego, env√≠a mensajes informativos al jugador con su tiempo de juego y direcci√≥n IP.
+- **Al Ejecutar Comandos**: Los comandos `/getinfo` y `/getinfouser` permiten a los administradores consultar la informaci√≥n de jugadores espec√≠ficos.
+- **Identificaci√≥n de la Plataforma**: El plugin identifica la plataforma que utiliza un jugador seg√∫n los datos recibidos del cliente del juego.
 
 ## Dependencias
-- **API de TShock**: Este plugin utiliza TShock versiÛn 2.1 o superior para la integraciÛn.
-- **Newtonsoft.Json**: Se usa para la serializaciÛn y deserializaciÛn de JSON.
+- **API de TShock**: Este plugin utiliza TShock versi√≥n 2.1 o superior para la integraci√≥n.
+- **Newtonsoft.Json**: Se usa para la serializaci√≥n y deserializaci√≥n de JSON.
 
-## CrÈditos
+## Cr√©ditos
 - **Autor**: FrankV22
-- **VersiÛn**: 1.0.0
+- **Versi√≥n**: 1.0.0
 
 ## Licencia
-Este proyecto est· licenciado bajo la [Licencia MIT](LICENSE).
+Este proyecto est√° licenciado bajo la [Licencia MIT](LICENSE).

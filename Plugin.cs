@@ -1,17 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.Xna.Framework;
-using OTAPI;
-using System.Collections.ObjectModel;
-using System.IO;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Terraria;
 using TerrariaApi.Server;
 using TShockAPI;
-using TShockAPI.DB;
 using TShockAPI.Hooks;
-using TShockAPI.Handlers.NetModules;
-using static TShockAPI.GetDataHandlers;
 using System.Data;
 using System.IO;
 using System;

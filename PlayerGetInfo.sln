@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.34928.147
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlayerGetInfo", "PlayerGetInfo.csproj", "{C785BB39-7058-4AF2-A145-578678ADD9BB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlayerGetInfo", "PlayerGetInfo.csproj", "{C785BB39-7058-4AF2-A145-578678ADD9BB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PlayerJoinInfo", "PlayerJoinInfo", "{3B40B3B8-21A1-4602-AAB1-1BA775BDE4B2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,6 +20,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C785BB39-7058-4AF2-A145-578678ADD9BB} = {3B40B3B8-21A1-4602-AAB1-1BA775BDE4B2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3856FD4A-236E-4C2E-8DB5-8EA6194AA42E}

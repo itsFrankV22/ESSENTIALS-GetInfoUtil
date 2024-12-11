@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlayerGetInfo", "PlayerGetI
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PlayerJoinInfo", "PlayerJoinInfo", "{3B40B3B8-21A1-4602-AAB1-1BA775BDE4B2}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PlayerGetInfoREPO", "PlayerGetInfoREPO", "{6EBD24AB-FF99-420C-808B-60776C02B10B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -22,7 +24,8 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{C785BB39-7058-4AF2-A145-578678ADD9BB} = {3B40B3B8-21A1-4602-AAB1-1BA775BDE4B2}
+		{C785BB39-7058-4AF2-A145-578678ADD9BB} = {6EBD24AB-FF99-420C-808B-60776C02B10B}
+		{6EBD24AB-FF99-420C-808B-60776C02B10B} = {3B40B3B8-21A1-4602-AAB1-1BA775BDE4B2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3856FD4A-236E-4C2E-8DB5-8EA6194AA42E}

@@ -1,7 +1,7 @@
 # PlayerGetInfo Plugin README
 
 > [!NOTE]
-> SI HABLAS OTRO IDIOMA PORFAVOR VE A [README_ES](README_ES.md) PARA LEER ESTO IDIOMA ESPAÑOL
+> SI HABLAS OTRO IDIOMA PORFAVOR VE A [README_ES](README_ES.md) PARA LEER ESTO IDIOMA ESPAÃ‘OL
 
 > [!WARNING]
 > You must have `"EnableGeoIp": true,` in `home/container/tshock/Config.json`
@@ -30,6 +30,28 @@ The **PlayerGetInfo** plugin for TShock provides server administrators with deta
 [ + ] - TILES DESTROYED: [ 0 ]
 ###################################################
 ```
+EXAMPLE: UpdateCheckerMessage
+```PowerShell
+###################################################
+#     GetInfoPlugin - Installed  - GodLuck!       #
+###################################################
+: #################################################
+# #####  ####  #####    ##### ###  ## #### #####  #
+# #      #       #        #   #### ## #    #   #  #
+# #  ##  ##      #   ##   #   ## #### ###  #   #  #
+# #   #  #       #        #   ##  ### #    #   #  #
+# #####  ####    #      ##### ##   ## #    #####  #
+###################################################
+#              Checking for updates...            #
+###################################################
+Server started
+###################################################
+#            Plugin is up to date!!!              #
+###################################################
+```
+EXAMPLE: Join Message to all players
+![image](https://github.com/user-attachments/assets/e7815fa9-4e2c-4b42-90d2-2dea2beb740b)
+
 
 ## Features
 - Tracks the first login time of each player.
@@ -66,7 +88,7 @@ The **PlayerGetInfo** plugin for TShock provides server administrators with deta
 The plugin saves data in a file named `firstLoginTimes.json` located in the `tshock/` directory. This file is used to store the first login time of players for tracking playtime.
 
 ### File Format
-- The JSON file is formatted as a dictionary where each entry corresponds to a player’s ID and their first login time.
+- The JSON file is formatted as a dictionary where each entry corresponds to a playerâ€™s ID and their first login time.
 
 ## How It Works
 - **On Player Join**: The plugin logs the player's IP address and records their first login time if they are joining for the first time. It then sends informational messages to the player with their playtime and IP address.

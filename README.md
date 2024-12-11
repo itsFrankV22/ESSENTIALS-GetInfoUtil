@@ -6,6 +6,28 @@
 ## Overview
 The **PlayerGetInfo** plugin for TShock provides server administrators with detailed information about players when they join the server or request information about other players. This includes the platform they are playing on, their IP address, and their total playtime since registration. The plugin helps enhance server management by providing quick access to player-specific data.
 
+### EXAMPLE: Join Message
+```PowerShell
+###################################################
+#          J O I N E D - P L A Y E R              #
+###################################################
+[ InfoPlayer ] PLAYER: FrankV22MVS ]
+[ + ] - PlayTime [ 03:40:32 ]
+[ + ] - DEVICE: [ PC ]
+[ + ] - IP: [ 0.0.0.0 ]
+[ + ] - COUNTRY: [ CSharpLand ]
+[ + ] - TEAM: [ 0 ]
+[ + ] - GROUP: [ guest ]
+[ + ] - SELECTED ITEM: [ [i:3827]
+[ + ] - LIFE: [ 100 ]
+[ + ] - MANA: [ 20 ]
+[ + ] - CURRENT LIFE: [ 100]
+[ + ] - CURRENT MANA: [ 20 ]
+[ + ] - TILES CREATED: [ 0 ]
+[ + ] - TILES DESTROYED: [ 0 ]
+###################################################
+```
+
 ## Features
 - Tracks the first login time of each player.
 - Shows a player's IP address and playtime since registration upon joining.

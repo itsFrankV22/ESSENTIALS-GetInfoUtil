@@ -12,7 +12,7 @@ namespace CheckUpdates
     {
         public static async Task<Version?> RequestLatestVersion()
         {
-            string url = "https://api.github.com/repos/itsFrankV22/PlayerGetInfo/releases/latest/";
+            string url = "https://api.github.com/repos/itsFrankV22/PlayerGetInfo/releases/latest";
 
             using (HttpClient client = new HttpClient())
             {
@@ -25,7 +25,7 @@ namespace CheckUpdates
 
                     if (latestRelease == null) return null;
 
-                    string tag = latestRelease.tag_name;
+                    string tag = latestRelease.name;
 
                     tag = tag.Trim('v');
                     string[] nums = tag.Split('.');
@@ -38,13 +38,13 @@ namespace CheckUpdates
                 }
                 catch
                 {
-                    //TShock.Log.ConsoleInfo($"###################################################");
-                    //TShock.Log.ConsoleInfo($"#  An error occurred while checking for updates.  #", ConsoleColor.Red);
-                    //TShock.Log.ConsoleInfo($"###################################################");
+                    TShock.Log.ConsoleInfo($"###################################################");
+                    TShock.Log.ConsoleInfo($"#  An error occurred while checking for updates.  #", ConsoleColor.Red);
+                    TShock.Log.ConsoleInfo($"###################################################");
 
-                    TShock.Log.ConsoleInfo($"###################################################");
-                    TShock.Log.ConsoleInfo($"#            Feature still in progress.           #", ConsoleColor.Red);
-                    TShock.Log.ConsoleInfo($"###################################################");
+                    //TShock.Log.ConsoleInfo($"###################################################");
+                    //TShock.Log.ConsoleInfo($"#            Feature still in progress.           #", ConsoleColor.Red);
+                    //TShock.Log.ConsoleInfo($"###################################################");
                 }
             }
 
@@ -75,26 +75,27 @@ namespace CheckUpdates
 
             bool isUpToDate = await IsUpToDate(plugin);
 
+
             if (isUpToDate)
             {
-                //TShock.Log.ConsoleInfo($"###################################################");
-                //TShock.Log.ConsoleInfo($"#            Plugin is up to date!!!              #", ConsoleColor.Green);
-                //TShock.Log.ConsoleInfo($"###################################################");
+                TShock.Log.ConsoleInfo($"###################################################");
+                TShock.Log.ConsoleInfo($"#            Plugin is up to date!!!              #", ConsoleColor.Green);
+                TShock.Log.ConsoleInfo($"###################################################");
             }
             else
             {
-            //    TShock.Log.ConsoleInfo($"###################################################");
-            //    TShock.Log.ConsoleInfo($"#            Plugin is no up to date!!!           #", ConsoleColor.Green);
-            //    TShock.Log.ConsoleInfo($"###################################################");
-            //    TShock.Log.ConsoleInfo($"#   Please visit to download the latest version.  #", ConsoleColor.Blue);
-            //    TShock.Log.ConsoleInfo($"#  https://github.com/itsFrankV22/PlayerGetInfo   #", ConsoleColor.Blue);
-            //    TShock.Log.ConsoleInfo($"###################################################");
-
                 TShock.Log.ConsoleInfo($"###################################################");
-                TShock.Log.ConsoleInfo($"#       Visit to see if there is an update        #", ConsoleColor.Blue);
-                TShock.Log.ConsoleInfo($"#                  Current: 1.2.0                 #", ConsoleColor.Blue);
+                TShock.Log.ConsoleInfo($"#            Plugin is no up to date!!!           #", ConsoleColor.Green);
+                TShock.Log.ConsoleInfo($"###################################################");
+                TShock.Log.ConsoleInfo($"#   Please visit to download the latest version.  #", ConsoleColor.Blue);
                 TShock.Log.ConsoleInfo($"#  https://github.com/itsFrankV22/PlayerGetInfo   #", ConsoleColor.Blue);
                 TShock.Log.ConsoleInfo($"###################################################");
+
+                //TShock.Log.ConsoleInfo($"###################################################");
+                //TShock.Log.ConsoleInfo($"#       Visit to see if there is an update        #", ConsoleColor.Blue);
+                //TShock.Log.ConsoleInfo($"#                  Current: 1.2.0                 #", ConsoleColor.Blue);
+                //TShock.Log.ConsoleInfo($"#  https://github.com/itsFrankV22/PlayerGetInfo   #", ConsoleColor.Blue);
+                //TShock.Log.ConsoleInfo($"###################################################");
             }
         }
     }

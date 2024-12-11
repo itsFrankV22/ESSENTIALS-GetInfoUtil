@@ -13,6 +13,8 @@ using System.Text;
 using System.Data.SQLite;
 using Microsoft.Data.Sqlite;
 using CheckUpdates;
+using System.Security.Cryptography.X509Certificates;
+using static Org.BouncyCastle.Math.EC.ECCurve;
 
 namespace InfoPlayers
 {
@@ -22,7 +24,7 @@ namespace InfoPlayers
         public override string Author => "FrankV22";
         public override string Description => "Show player information";
         public override string Name => "InfoPlayers";
-        public override Version Version => new Version(1, 0, 0);
+        public override Version Version => new Version(1, 2, 0);
 
         public static IDbConnection Db { get; private set; }
 
@@ -49,7 +51,8 @@ namespace InfoPlayers
 
             LoadFirstLoginTimes(); // Cargar tiempos de la base de datos o archivo
 
-            ServerApi.Hooks.NetGreetPlayer.Register(this, this.OnPlayerJoin);
+            ServerApi.Hooks.NetGreetPlayer.Register(this, this.OnPlayerJoin, 10);
+
             On.OTAPI.Hooks.MessageBuffer.InvokeGetData += this.OnGetData;
             ServerApi.Hooks.NetGreetPlayer.Register(this, this.OnGreet);
             GeneralHooks.ReloadEvent += OnReload;
@@ -64,6 +67,9 @@ namespace InfoPlayers
 
             if (disposing)
             {
+                ServerApi.Hooks.NetGreetPlayer.Deregister(this, OnGreetPlayer);
+
+
                 ServerApi.Hooks.GamePostInitialize.Deregister(this, OnPostInitialize);
                 SaveFirstLoginTimes(); // Guardar antes de desactivar
                 ServerApi.Hooks.NetGreetPlayer.Deregister(this, this.OnPlayerJoin);
@@ -91,6 +97,7 @@ namespace InfoPlayers
 
         private async void OnPostInitialize(EventArgs e)
         {
+
 
             TShock.Log.ConsoleInfo($"##################################################");
             TShock.Log.ConsoleInfo($"#     GetInfoPlugin - Installed  - GodLuck!       #");
@@ -142,13 +149,43 @@ namespace InfoPlayers
         //                          P L A Y E R S    -   J O I N  M E S S A G G E S
         // #####################################################################################################
         // #####################################################################################################
+
+
+        private void OnGreetPlayer(GreetPlayerEventArgs args)
+        {
+            var player = TShock.Players[args.Who];
+            if (player == null)
+            {
+                args.Handled = true;
+                return;
+            }
+
+            string name = player.Name;
+            var PlayerCountry = player.Country ?? "Unknown";
+
+            //// Mensaje personalizado
+            //string customMessage =
+            //    $"[ INFO PLAYER ] [ PLAYER JOINED! ]\n" +
+            //    $"[ {name} ] Joined: from {PlayerCountry} WELCOME!";
+
+            //var messageColor = new Microsoft.Xna.Framework.Color(0, 255, 255);
+
+            //// Envía el mensaje personalizado
+            //TSPlayer.All.SendMessage(customMessage, messageColor);
+
+            args.Handled = true;
+        }
+
+
         private void OnPlayerJoin(GreetPlayerEventArgs args)
         {
-
+        
 
             var player = TShock.Players[args.Who];
             if (player != null)
             {
+                player.SilentJoinInProgress = true; // Evita el mensaje predeterminado
+
 
                 string name = player.Name;
                 var hp = player.TPlayer.statLifeMax2;
@@ -181,6 +218,16 @@ namespace InfoPlayers
                     player.SendInfoMessage($"[ + ] - SELECTED ITEM: [ [i:{PlayerSelectedItem}] ]");
                     player.SendInfoMessage($"#  [ + ] - TILES CREATED: [ {PlayerTilesCreated}] ]");
                     player.SendInfoMessage($"#  [ + ] - TILES DESTROYED: [ {PlayerTilesDestroyed}] ]");
+
+                    // Mensaje personalizado
+                    string customMessage =
+                        $"[ INFO PLAYER ] [ PLAYER JOINED! ]\n" +
+                        $"[ {name} ] Joined: from {PlayerCountry} WELCOME!";
+
+                    var messageColor = new Microsoft.Xna.Framework.Color(0, 255, 255);
+
+                    // Envía el mensaje personalizado
+                    TSPlayer.All.SendMessage(customMessage, messageColor);
                 }
                 else
                 {
@@ -195,6 +242,16 @@ namespace InfoPlayers
                     player.SendInfoMessage($"[ + ] - SELECTED ITEM: [ [i:{PlayerSelectedItem}] ]");
                     player.SendInfoMessage($"#  [ + ] - TILES CREATED: [ {PlayerTilesCreated}] ]");
                     player.SendInfoMessage($"#  [ + ] - TILES DESTROYED: [ {PlayerTilesDestroyed}] ]");
+
+                    // Mensaje personalizado
+                    string customMessage =
+                        $"[ INFO PLAYER ] [ PLAYER JOINED! ]\n" +
+                        $"[ {name} ] Joined: from {PlayerCountry} WELCOME!";
+
+                    var messageColor = new Microsoft.Xna.Framework.Color(0, 255, 255);
+
+                    // Envía el mensaje personalizado
+                    TSPlayer.All.SendMessage(customMessage, messageColor);
                 }
             }
         }

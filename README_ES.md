@@ -3,6 +3,9 @@
 > [!NOTE]
 > IF YOU SPEAK ANOTHER LANGUAGE, PLEASE GO TO [README_EN](README.md) TO READ THIS IN ENGLISH.
 
+> [!WARNING]
+> You must have `"EnableGeoIp": true,` in `home/container/tshock/Config.json`
+
 ## Descripción
 El plugin **PlayerGetInfo** para TShock proporciona a los administradores del servidor información detallada sobre los jugadores cuando se unen al servidor o solicitan información sobre otros jugadores. Esto incluye la plataforma en la que están jugando, su dirección IP y su tiempo de juego total desde la primera vez que se registraron. El plugin ayuda a mejorar la gestión del servidor al proporcionar un acceso rápido a datos específicos de los jugadores.
 

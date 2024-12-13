@@ -5,6 +5,7 @@
 
 > [!WARNING]
 > Debes tener `"EnableGeoIp": true,` en `home/container/tshock/Config.json`
+
 > Si vas a actualizar desde la 1.3.0 debes borrar manualmente el anterior plugin llamado `GetInfoPlayer`
 
 ## Descripción

@@ -76,7 +76,7 @@ The plugin saves data in a file named `firstLoginTimes.json` located in the `tsh
 
 ## Credits
 - **Author**: FrankV22
-- **Version**: 1.0.0
+- **Version**: 1.4.0
 
 ## License
 This project is licensed under the [MIT License](LICENSE).

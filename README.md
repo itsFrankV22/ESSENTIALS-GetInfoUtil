@@ -5,54 +5,23 @@
 
 > [!WARNING]
 > You must have `"EnableGeoIp": true,` in `home/container/tshock/Config.json`
+> When installing this update from 1.3.0 you must manually delete the plugin called `GetInfoPlayers`
 
 ## Overview
 The **PlayerGetInfo** plugin for TShock provides server administrators with detailed information about players when they join the server or request information about other players. This includes the platform they are playing on, their IP address, and their total playtime since registration. The plugin helps enhance server management by providing quick access to player-specific data.
 
-### EXAMPLE: Join Message
-```PowerShell
-###################################################
-#          J O I N E D - P L A Y E R              #
-###################################################
-[ InfoPlayer ] PLAYER: FrankV22MVS ]
-[ + ] - PlayTime [ 03:40:32 ]
-[ + ] - DEVICE: [ PC ]
-[ + ] - IP: [ 0.0.0.0 ]
-[ + ] - COUNTRY: [ CSharpLand ]
-[ + ] - TEAM: [ 0 ]
-[ + ] - GROUP: [ guest ]
-[ + ] - SELECTED ITEM: [ [i:3827]
-[ + ] - LIFE: [ 100 ]
-[ + ] - MANA: [ 20 ]
-[ + ] - CURRENT LIFE: [ 100]
-[ + ] - CURRENT MANA: [ 20 ]
-[ + ] - TILES CREATED: [ 0 ]
-[ + ] - TILES DESTROYED: [ 0 ]
-###################################################
-```
-EXAMPLE: UpdateCheckerMessage
-```PowerShell
-###################################################
-#     GetInfoPlugin - Installed  - GodLuck!       #
-###################################################
-: #################################################
-# #####  ####  #####    ##### ###  ## #### #####  #
-# #      #       #        #   #### ## #    #   #  #
-# #  ##  ##      #   ##   #   ## #### ###  #   #  #
-# #   #  #       #        #   ##  ### #    #   #  #
-# #####  ####    #      ##### ##   ## #    #####  #
-###################################################
-#              Checking for updates...            #
-###################################################
-Server started
-###################################################
-#            Plugin is up to date!!!              #
-###################################################
-```
-EXAMPLE: Join Message to all players
 
-![image](https://github.com/user-attachments/assets/e7815fa9-4e2c-4b42-90d2-2dea2beb740b)
+**EXAMPLE WELCOME MESSAGE to ALL PLAYERS**
+![image](https://github.com/user-attachments/assets/70c05245-c736-4da4-85b9-0e454a8d5b78)
 
+**EXAMPLE JOIN MESSAGE CONSLE**
+![image](https://github.com/user-attachments/assets/cfd9f394-a0f8-43e0-a7b4-23646529e00f)
+
+**EXAMPLE UPDATED PLUGIN CONSOLE**
+![image](https://github.com/user-attachments/assets/97d356e6-26a1-446b-a737-332fa655a03d)
+
+**EXAMPLE OUTDATED PLUGIN CONSOLE**
+![image](https://github.com/user-attachments/assets/765c1c87-1313-48f9-a421-a8db6e27ce8f)
 
 ## Features
 - Tracks the first login time of each player.

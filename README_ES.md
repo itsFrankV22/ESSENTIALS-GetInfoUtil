@@ -76,7 +76,7 @@ El plugin guarda los datos en un archivo llamado `firstLoginTimes.json` ubicado 
 
 ## Créditos
 - **Autor**: FrankV22
-- **Versión**: 1.0.0
+- **Versión**: 1.4.0
 
 ## Licencia
 Este proyecto está licenciado bajo la [Licencia MIT](LICENSE).

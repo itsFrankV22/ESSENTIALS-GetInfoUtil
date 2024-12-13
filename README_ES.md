@@ -6,7 +6,7 @@
 > [!WARNING]
 > Debes tener `"EnableGeoIp": true,` en `home/container/tshock/Config.json`
 
-> Si vas a actualizar desde la 1.3.0 debes borrar manualmente el anterior plugin llamado `GetInfoPlayer`
+> Si vas a actualizar desde la 1.3.0 debes borrar manualmente el anterior plugin llamado `PlayerGetInfo`
 
 ## Descripción
 El plugin **PlayerGetInfo** para TShock proporciona a los administradores del servidor información detallada sobre los jugadores cuando se unen al servidor o solicitan información sobre otros jugadores. Esto incluye la plataforma en la que están jugando, su dirección IP y su tiempo de juego total desde la primera vez que se registraron. El plugin ayuda a mejorar la gestión del servidor al proporcionar un acceso rápido a datos específicos de los jugadores.

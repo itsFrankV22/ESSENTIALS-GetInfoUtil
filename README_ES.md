@@ -5,53 +5,26 @@
 
 > [!WARNING]
 > Debes tener `"EnableGeoIp": true,` en `home/container/tshock/Config.json`
+> Si vas a actualizar desde la 1.3.0 debes borrar manualmente el anterior plugin llamado `GetInfoPlayer`
 
 ## Descripción
 El plugin **PlayerGetInfo** para TShock proporciona a los administradores del servidor información detallada sobre los jugadores cuando se unen al servidor o solicitan información sobre otros jugadores. Esto incluye la plataforma en la que están jugando, su dirección IP y su tiempo de juego total desde la primera vez que se registraron. El plugin ayuda a mejorar la gestión del servidor al proporcionar un acceso rápido a datos específicos de los jugadores.
 
-### EJEMPLO: Join Message
-```PowerShell
-###################################################
-#          J O I N E D - P L A Y E R              #
-###################################################
-[ InfoPlayer ] PLAYER: FrankV22MVS ]
-[ + ] - PlayTime [ 03:40:32 ]
-[ + ] - DEVICE: [ PC ]
-[ + ] - IP: [ 0.0.0.0 ]
-[ + ] - COUNTRY: [ CSharpLand ]
-[ + ] - TEAM: [ 0 ]
-[ + ] - GROUP: [ guest ]
-[ + ] - SELECTED ITEM: [ [i:3827]
-[ + ] - LIFE: [ 100 ]
-[ + ] - MANA: [ 20 ]
-[ + ] - CURRENT LIFE: [ 100]
-[ + ] - CURRENT MANA: [ 20 ]
-[ + ] - TILES CREATED: [ 0 ]
-[ + ] - TILES DESTROYED: [ 0 ]
-###################################################
-```
-EXAMPLE: UpdateCheckerMessage
-```PowerShell
-###################################################
-#     GetInfoPlugin - Installed  - GodLuck!       #
-###################################################
-: #################################################
-# #####  ####  #####    ##### ###  ## #### #####  #
-# #      #       #        #   #### ## #    #   #  #
-# #  ##  ##      #   ##   #   ## #### ###  #   #  #
-# #   #  #       #        #   ##  ### #    #   #  #
-# #####  ####    #      ##### ##   ## #    #####  #
-###################################################
-#              Checking for updates...            #
-###################################################
-Server started
-###################################################
-#            Plugin is up to date!!!              #
-###################################################
-```
-EXAMPLE: Join Message to all players
+**EXAMPLE WELCOME MESSAGE to ALL PLAYERS**
 
-![image](https://github.com/user-attachments/assets/e7815fa9-4e2c-4b42-90d2-2dea2beb740b)
+![image](https://github.com/user-attachments/assets/70c05245-c736-4da4-85b9-0e454a8d5b78)
+
+**EXAMPLE JOIN MESSAGE CONSLE**
+
+![image](https://github.com/user-attachments/assets/cfd9f394-a0f8-43e0-a7b4-23646529e00f)
+
+**EXAMPLE UPDATED PLUGIN CONSOLE**
+
+![image](https://github.com/user-attachments/assets/97d356e6-26a1-446b-a737-332fa655a03d)
+
+**EXAMPLE OUTDATED PLUGIN CONSOLE**
+
+![image](https://github.com/user-attachments/assets/765c1c87-1313-48f9-a421-a8db6e27ce8f)
 
 
 ## Características

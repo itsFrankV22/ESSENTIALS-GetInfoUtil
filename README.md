@@ -22,12 +22,13 @@ The **PlayerGetInfo** plugin for TShock provides server administrators with deta
 
 **EXAMPLE UPDATED PLUGIN CONSOLE**
 
-![image](https://github.com/user-attachments/assets/c131aab7-68c7-4688-a7ee-9845afbf0919)
+![image](https://github.com/user-attachments/assets/e9855a63-220e-4ec5-aa49-2fa89f54f44a)
 
 
 **EXAMPLE OUTDATED PLUGIN CONSOLE**
 
-![image](https://github.com/user-attachments/assets/765c1c87-1313-48f9-a421-a8db6e27ce8f)
+![image](https://github.com/user-attachments/assets/c131aab7-68c7-4688-a7ee-9845afbf0919)
+
 
 ## Features
 - Tracks the first login time of each player.

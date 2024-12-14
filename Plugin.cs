@@ -15,6 +15,7 @@ using Microsoft.Data.Sqlite;
 using CheckUpdates;
 using System.Security.Cryptography.X509Certificates;
 using static Org.BouncyCastle.Math.EC.ECCurve;
+using ESSENTIALS_GetInfoUtil;
 
 namespace InfoPlayers
 {
@@ -30,6 +31,7 @@ namespace InfoPlayers
 
 
         private Dictionary<int, int> playerKills = new Dictionary<int, int>();
+
         private Dictionary<int, DateTime> firstLoginTimes = new();
         private Dictionary<int, DateTime> loginTimes = new(); // Diccionario para tiempos de inicio
 
@@ -47,6 +49,8 @@ namespace InfoPlayers
 
         public override void Initialize()
         {
+            GetDataHandlers.KillMe += OnPlayerKill;
+
             ServerApi.Hooks.GamePostInitialize.Register(this, OnPostInitialize);
 
             LoadFirstLoginTimes(); // Cargar tiempos de la base de datos o archivo
@@ -67,6 +71,8 @@ namespace InfoPlayers
 
             if (disposing)
             {
+                GetDataHandlers.KillMe -= OnPlayerKill;
+
                 ServerApi.Hooks.NetGreetPlayer.Deregister(this, OnGreetPlayer);
 
 
@@ -90,7 +96,7 @@ namespace InfoPlayers
             TShock.Log.ConsoleInfo($"# █   █  █       █        █   ██  ███ █    █   █  #");
             TShock.Log.ConsoleInfo($"# █████  ████    █      █████ ██   ██ █    █████  #");
             TShock.Log.ConsoleInfo($"###################################################");
-            TShock.Log.ConsoleInfo($"#    GetInfoPlugin - Recargadi  - Buena suerte!   #");
+            TShock.Log.ConsoleInfo($"#     GetInfoPlugin - Recargado  - GOD LUCK!      #");
             TShock.Log.ConsoleInfo($"###################################################");
         }
 
@@ -114,8 +120,24 @@ namespace InfoPlayers
         // #####################################################################################################
         // #####################################################################################################
 
+        private void OnPlayerKill(object sender, GetDataHandlers.KillMeEventArgs args)
+        {
+            try
+            {
+                var player = TShock.Players[args.PlayerId];
+                if (player != null && player.Active)
+                {
+                    //KillCounter.RegisterKill(player.Name);
+                    //player.SendInfoMessage($"¡Has matado a un jugador! Kills totales: {KillCounter.PlayerKills[player.Name]}");
 
+                }
+            }
+            catch (Exception)
+            {
 
+                TShock.Log.ConsoleInfo($"TEST Kill BAD!");
+            }
+        }
 
         // #####################################################################################################
         // #####################################################################################################
@@ -211,8 +233,8 @@ namespace InfoPlayers
 
                     // Mensaje personalizado
                     string customMessage =
-                        $"[ + ] [ Jugador se ha unido!! ]\n" +
-                        $"[ {InfoTool.GetPlatform(player)} ][ {name} ] Nos llega desde: {PlayerCountry} Bienvenido!";
+                        $"[ + ] [ PLAYER JOIN!! ]\n" +
+                        $"[ {InfoTool.GetPlatform(player)} ][ {name} ] From: {PlayerCountry} Welcome!";
 
                     var messageColor = new Microsoft.Xna.Framework.Color(0, 255, 255);
 
@@ -229,8 +251,8 @@ namespace InfoPlayers
 
                     // Mensaje personalizado
                     string customMessage =
-                        $"[ + ] [ Jugador se ha unido!! ]\n" +
-                        $"[ {InfoTool.GetPlatform(player)} ][ {name} ] Nos llega desde: {PlayerCountry} Bienvenido!";
+                        $"[ + ] [ PLAYER JOIN!! ]\n" +
+                        $"[ {InfoTool.GetPlatform(player)} ][ {name} ] From: {PlayerCountry} Welcome!";
 
                     var messageColor = new Microsoft.Xna.Framework.Color(0, 255, 255);
 

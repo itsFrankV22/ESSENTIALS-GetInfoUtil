@@ -22,7 +22,8 @@ The **PlayerGetInfo** plugin for TShock provides server administrators with deta
 
 **EXAMPLE UPDATED PLUGIN CONSOLE**
 
-![image](https://github.com/user-attachments/assets/97d356e6-26a1-446b-a737-332fa655a03d)
+![image](https://github.com/user-attachments/assets/c131aab7-68c7-4688-a7ee-9845afbf0919)
+
 
 **EXAMPLE OUTDATED PLUGIN CONSOLE**
 

@@ -22,9 +22,9 @@ namespace InfoPlayers
     public class PlayerJoinInfo : TerrariaPlugin
     {
         public override string Author => "FrankV22";
-        public override string Description => "Show player information";
-        public override string Name => "InfoPlayers";
-        public override Version Version => new Version(1, 2, 0);
+        public override string Description => "Muestra info Importante y mejor orden";
+        public override string Name => "ESSENTIALS GetInfoUtil";
+        public override Version Version => new Version(1, 4, 0);
 
         public static IDbConnection Db { get; private set; }
 
@@ -51,7 +51,7 @@ namespace InfoPlayers
 
             LoadFirstLoginTimes(); // Cargar tiempos de la base de datos o archivo
 
-            ServerApi.Hooks.NetGreetPlayer.Register(this, this.OnPlayerJoin, 10);
+            ServerApi.Hooks.NetGreetPlayer.Register(this, this.OnPlayerJoin, 9);
 
             On.OTAPI.Hooks.MessageBuffer.InvokeGetData += this.OnGetData;
             ServerApi.Hooks.NetGreetPlayer.Register(this, this.OnGreet);
@@ -84,24 +84,19 @@ namespace InfoPlayers
         private void OnReload(ReloadEventArgs reloadEventArgs)
         {
             TShock.Log.ConsoleInfo($"###################################################");
-            TShock.Log.ConsoleInfo($"# #####  ####  #####    ##### ###  ## #### #####  #");
-            TShock.Log.ConsoleInfo($"# #      #       #        #   #### ## #    #   #  #");
-            TShock.Log.ConsoleInfo($"# #  ##  ##      #   ##   #   ## #### ###  #   #  #");
-            TShock.Log.ConsoleInfo($"# #   #  #       #        #   ##  ### #    #   #  #");
-            TShock.Log.ConsoleInfo($"# #####  ####    #      ##### ##   ## #    #####  #");
+            TShock.Log.ConsoleInfo($"# █████  ████  █████    █████ ███  ██ ████ █████  #");
+            TShock.Log.ConsoleInfo($"# █      █       █        █   ████ ██ █    █   █  #");
+            TShock.Log.ConsoleInfo($"# █  ██  ██      █   ██   █   ██ ████ ███  █   █  #");
+            TShock.Log.ConsoleInfo($"# █   █  █       █        █   ██  ███ █    █   █  #");
+            TShock.Log.ConsoleInfo($"# █████  ████    █      █████ ██   ██ █    █████  #");
             TShock.Log.ConsoleInfo($"###################################################");
-            TShock.Log.ConsoleInfo($"#     GetInfoPlugin - RE-Loaded  - GodLuck!       #");
+            TShock.Log.ConsoleInfo($"#    GetInfoPlugin - Recargadi  - Buena suerte!   #");
             TShock.Log.ConsoleInfo($"###################################################");
         }
 
 
         private async void OnPostInitialize(EventArgs e)
         {
-
-
-            TShock.Log.ConsoleInfo($"##################################################");
-            TShock.Log.ConsoleInfo($"#     GetInfoPlugin - Installed  - GodLuck!       #");
-            TShock.Log.ConsoleInfo($"###################################################");
 
             await CheckForPluginUpdates();
         }
@@ -160,13 +155,13 @@ namespace InfoPlayers
                 return;
             }
 
-            string name = player.Name;
-            var PlayerCountry = player.Country ?? "Unknown";
+            //string name = player.Name;
+            //var PlayerCountry = player.Country ?? "Unknown";
 
             //// Mensaje personalizado
             //string customMessage =
-            //    $"[ INFO PLAYER ] [ PLAYER JOINED! ]\n" +
-            //    $"[ {name} ] Joined: from {PlayerCountry} WELCOME!";
+            //            $"[ + ] [ GET-INFO-PLUGIN ] [ PLAYER JOINED ]\n" +
+            //            $"[ {InfoTool.GetPlatform(player)} ][ {name} ] From: {PlayerCountry}!";
 
             //var messageColor = new Microsoft.Xna.Framework.Color(0, 255, 255);
 
@@ -179,7 +174,7 @@ namespace InfoPlayers
 
         private void OnPlayerJoin(GreetPlayerEventArgs args)
         {
-        
+
 
             var player = TShock.Players[args.Who];
             if (player != null)
@@ -211,18 +206,13 @@ namespace InfoPlayers
                     firstLoginTimes[args.Who] = DateTime.UtcNow;
                     SaveFirstLoginTimes();
 
-                    player.SendInfoMessage($"[ + ][ PlayerGetInfo ] by{Author} v{Version} please follow in Youtube Discord etc");
-                    player.SendInfoMessage($"[ + ] - PlayTime [ NULL ]");
-                    player.SendInfoMessage($"[ + ] - DEVICE: [ {InfoTool.GetPlatform(player)} ]");
-                    player.SendInfoMessage($"[ + ] - COUNTRY: [ {PlayerCountry} ]");
-                    player.SendInfoMessage($"[ + ] - SELECTED ITEM: [ [i:{PlayerSelectedItem}] ]");
-                    player.SendInfoMessage($"#  [ + ] - TILES CREATED: [ {PlayerTilesCreated}] ]");
-                    player.SendInfoMessage($"#  [ + ] - TILES DESTROYED: [ {PlayerTilesDestroyed}] ]");
+
+                    player.SendInfoMessage($"[ + ][ GetInfoUtils ] by{Author} v{Version} please follow in Youtube Discord etc");
 
                     // Mensaje personalizado
                     string customMessage =
-                        $"[ INFO PLAYER ] [ PLAYER JOINED! ]\n" +
-                        $"[ {name} ] Joined: from {PlayerCountry} WELCOME!";
+                        $"[ + ] [ Jugador se ha unido!! ]\n" +
+                        $"[ {InfoTool.GetPlatform(player)} ][ {name} ] Nos llega desde: {PlayerCountry} Bienvenido!";
 
                     var messageColor = new Microsoft.Xna.Framework.Color(0, 255, 255);
 
@@ -235,18 +225,12 @@ namespace InfoPlayers
                     var playTime = DateTime.UtcNow - firstLoginTime;
 
                     string formattedPlayTime = $"{(int)playTime.TotalHours:D2}:{playTime.Minutes:D2}:{playTime.Seconds:D2}";
-                    player.SendInfoMessage($"[ + ][ PlayerGetInfo ] by{Author} v{Version} please follow in Youtube Discord etc");
-                    player.SendInfoMessage($"[ + ] - PlayTime [ {formattedPlayTime} ]");
-                    player.SendInfoMessage($"[ + ] - DEVICE: [ {InfoTool.GetPlatform(player)} ]");
-                    player.SendInfoMessage($"[ + ] - COUNTRY: [ {PlayerCountry} ]");
-                    player.SendInfoMessage($"[ + ] - SELECTED ITEM: [ [i:{PlayerSelectedItem}] ]");
-                    player.SendInfoMessage($"#  [ + ] - TILES CREATED: [ {PlayerTilesCreated}] ]");
-                    player.SendInfoMessage($"#  [ + ] - TILES DESTROYED: [ {PlayerTilesDestroyed}] ]");
+                    player.SendInfoMessage($"[ + ][ GetInfoUtils ] by{Author} v{Version} please follow in Youtube Discord etc");
 
                     // Mensaje personalizado
                     string customMessage =
-                        $"[ INFO PLAYER ] [ PLAYER JOINED! ]\n" +
-                        $"[ {name} ] Joined: from {PlayerCountry} WELCOME!";
+                        $"[ + ] [ Jugador se ha unido!! ]\n" +
+                        $"[ {InfoTool.GetPlatform(player)} ][ {name} ] Nos llega desde: {PlayerCountry} Bienvenido!";
 
                     var messageColor = new Microsoft.Xna.Framework.Color(0, 255, 255);
 
@@ -300,18 +284,11 @@ namespace InfoPlayers
                             args.Player.SendInfoMessage($"#          USER - INFO              #");
                             args.Player.SendInfoMessage($"#####################################");
                             args.Player.SendInfoMessage($"#  [ InfoPlayer ] PLAYER: {targetPlayer.Name} ]");
-                            args.Player.SendInfoMessage($"#  [ + ] - PlayTime [ {formattedPlayTime} ]");
                             args.Player.SendInfoMessage($"#  [ + ] - DEVICE: [ {InfoTool.GetPlatform(targetPlayer)} ]");
-                            args.Player.SendInfoMessage($"#  [ + ] - IP: [ {playerIP} ]");
                             args.Player.SendInfoMessage($"#  [ + ] - COUNTRY: [ {PlayerCountry} ]");
-                            args.Player.SendInfoMessage($"#  [ + ] - GROUP: [ {playerGroup} ]");
                             args.Player.SendInfoMessage($"#  [ + ] - SELECTED ITEM: [ [i:{PlayerSelectedItem}]");
                             args.Player.SendInfoMessage($"#  [ + ] - LIFE: [ {hp} ]");
                             args.Player.SendInfoMessage($"#  [ + ] - LIFE: [ {mana} ]");
-                            args.Player.SendInfoMessage($"#  [ + ] - CURRENT LIFE: [ {currentHp} ]");
-                            args.Player.SendInfoMessage($"#  [ + ] - CURRENT MANA: [ {mana} ]");
-                            args.Player.SendInfoMessage($"#  [ + ] - TILES CREATED: [ {PlayerTilesCreated}] ]");
-                            args.Player.SendInfoMessage($"#  [ + ] - TILES DESTROYED: [ {PlayerTilesDestroyed}] ]");
                             args.Player.SendInfoMessage($"######################################");
                         }
                         else
@@ -320,18 +297,11 @@ namespace InfoPlayers
                             args.Player.SendInfoMessage($"#          USER - INFO              #");
                             args.Player.SendInfoMessage($"#####################################");
                             args.Player.SendInfoMessage($"#  [ InfoPlayer ] PLAYER: {targetPlayer.Name} ]");
-                            args.Player.SendInfoMessage($"#  [ + ] - PlayTime [ 00:00:00 ]");
                             args.Player.SendInfoMessage($"#  [ + ] - DEVICE: [ {InfoTool.GetPlatform(targetPlayer)} ]");
-                            args.Player.SendInfoMessage($"#  [ + ] - IP: [ {playerIP} ]");
                             args.Player.SendInfoMessage($"#  [ + ] - COUNTRY: [ {PlayerCountry} ]");
-                            args.Player.SendInfoMessage($"#  [ + ] - GROUP: [ {playerGroup} ]");
                             args.Player.SendInfoMessage($"#  [ + ] - SELECTED ITEM: [ [i:{PlayerSelectedItem}]");
                             args.Player.SendInfoMessage($"#  [ + ] - LIFE: [ {hp} ]");
                             args.Player.SendInfoMessage($"#  [ + ] - LIFE: [ {mana} ]");
-                            args.Player.SendInfoMessage($"#  [ + ] - CURRENT LIFE: [ {currentHp} ]");
-                            args.Player.SendInfoMessage($"#  [ + ] - CURRENT MANA: [ {mana} ]");
-                            args.Player.SendInfoMessage($"#  [ + ] - TILES CREATED: [ {PlayerTilesCreated}] ]");
-                            args.Player.SendInfoMessage($"#  [ + ] - TILES DESTROYED: [ {PlayerTilesDestroyed}] ]");
                             args.Player.SendInfoMessage($"######################################");
                         }
                     }
@@ -393,11 +363,10 @@ namespace InfoPlayers
                         string formattedPlayTime = $"{(int)playTime.TotalHours:D2}:{playTime.Minutes:D2}:{playTime.Seconds:D2}";
 
 
-                        args.Player.SendInfoMessage($"###################################################");
-                        args.Player.SendInfoMessage($"#            I N F O  - P L A Y E R               #");
-                        args.Player.SendInfoMessage($"###################################################");
+                        args.Player.SendInfoMessage($"#######################################################");
+                        args.Player.SendInfoMessage($"#               I N F O  - P L A Y E R                #");
+                        args.Player.SendInfoMessage($"#######################################################");
                         args.Player.SendInfoMessage($"  [ InfoPlayer ] PLAYER: [ {playerName} ]");
-                        args.Player.SendInfoMessage($"  [ + ] - PlayTime [ {formattedPlayTime} ]");
                         args.Player.SendInfoMessage($"  [ + ] - DEVICE: [ {InfoTool.GetPlatform(targetPlayer)} ]");
                         args.Player.SendInfoMessage($"  [ + ] - IP: [ {playerIP} ]");
                         args.Player.SendInfoMessage($"  [ + ] - COUNTRY: [ {playerCountry} ]");
@@ -406,20 +375,15 @@ namespace InfoPlayers
                         args.Player.SendInfoMessage($"  [ + ] - SELECTED ITEM: [ [i:{playerSelectedItem} ]");
                         args.Player.SendInfoMessage($"  [ + ] - LIFE: [ {hp} ]");
                         args.Player.SendInfoMessage($"  [ + ] - LIFE: [ {mana} ]");
-                        args.Player.SendInfoMessage($"  [ + ] - CURRENT LIFE: [ {currentHp} ]");
-                        args.Player.SendInfoMessage($"  [ + ] - CURRENT MANA: [ {mana} ]");
-                        args.Player.SendInfoMessage($"  [ + ] - TILES CREATED: [ {PlayerTilesCreated}] ]");
-                        args.Player.SendInfoMessage($"  [ + ] - TILES DESTROYED: [ {PlayerTilesDestroyed}] ]");
-                        args.Player.SendInfoMessage($"###################################################");
+                        args.Player.SendInfoMessage($"#######################################################");
                     }
                     else
                     {
 
-                        args.Player.SendInfoMessage($"###################################################");
-                        args.Player.SendInfoMessage($"#            I N F O  - P L A Y E R               #");
-                        args.Player.SendInfoMessage($"###################################################");
+                        args.Player.SendInfoMessage($"#######################################################");
+                        args.Player.SendInfoMessage($"#               I N F O  - P L A Y E R                #");
+                        args.Player.SendInfoMessage($"#######################################################");
                         args.Player.SendInfoMessage($"  [ InfoPlayer ] PLAYER: [ {playerName} ]");
-                        args.Player.SendInfoMessage($"  [ + ] - PlayTime [ 00:00:00 ]");
                         args.Player.SendInfoMessage($"  [ + ] - DEVICE: [ {InfoTool.GetPlatform(targetPlayer)} ]");
                         args.Player.SendInfoMessage($"  [ + ] - IP: [ {playerIP} ]");
                         args.Player.SendInfoMessage($"  [ + ] - COUNTRY: [ {playerCountry} ]");
@@ -428,11 +392,7 @@ namespace InfoPlayers
                         args.Player.SendInfoMessage($"  [ + ] - SELECTED ITEM: [ [i:{playerSelectedItem}] ]");
                         args.Player.SendInfoMessage($"  [ + ] - LIFE: [ {hp} ]");
                         args.Player.SendInfoMessage($"  [ + ] - LIFE: [ {mana} ]");
-                        args.Player.SendInfoMessage($"  [ + ] - CURRENT LIFE: [ {currentHp} ]");
-                        args.Player.SendInfoMessage($"  [ + ] - CURRENT MANA: [ {mana} ]");
-                        args.Player.SendInfoMessage($"  [ + ] - TILES CREATED: [ {PlayerTilesCreated}] ]");
-                        args.Player.SendInfoMessage($"  [ + ] - TILES DESTROYED: [ {PlayerTilesDestroyed} ]");
-                        args.Player.SendInfoMessage($"###################################################");
+                        args.Player.SendInfoMessage($"#######################################################");
                     }
                 }
                 else
@@ -490,10 +450,9 @@ namespace InfoPlayers
 
                 loginTimes[args.Who] = DateTime.UtcNow; // Registrar tiempo de inicio
                 TShock.Log.ConsoleInfo($"###################################################");
-                TShock.Log.ConsoleInfo($"#          J O I N E D - P L A Y E R               #");
+                TShock.Log.ConsoleInfo($"#          J O I N E D - P L A Y E R              #");
                 TShock.Log.ConsoleInfo($"###################################################");
                 TShock.Log.ConsoleInfo($"[ InfoPlayer ] PLAYER: {playerName} ]");
-                TShock.Log.ConsoleInfo($"[ + ] - PlayTime [ {formattedPlayTime} ]");
                 TShock.Log.ConsoleInfo($"[ + ] - DEVICE: [ {Platforms[args.Who]} ]");
                 TShock.Log.ConsoleInfo($"[ + ] - IP: [ {playerIP} ]");
                 TShock.Log.ConsoleInfo($"[ + ] - COUNTRY: [ {playerCountry} ]");
@@ -502,10 +461,6 @@ namespace InfoPlayers
                 TShock.Log.ConsoleInfo($"[ + ] - SELECTED ITEM: [ [i:{playerSelectedItem}]");
                 TShock.Log.ConsoleInfo($"[ + ] - LIFE: [ {hp} ]");
                 TShock.Log.ConsoleInfo($"[ + ] - MANA: [ {mana} ]");
-                TShock.Log.ConsoleInfo($"[ + ] - CURRENT LIFE: [ {currentHp} ]");
-                TShock.Log.ConsoleInfo($"[ + ] - CURRENT MANA: [ {mana} ]");
-                TShock.Log.ConsoleInfo($"[ + ] - TILES CREATED: [ {PlayerTilesCreated} ]");
-                TShock.Log.ConsoleInfo($"[ + ] - TILES DESTROYED: [ {PlayerTilesDestroyed} ]");
                 TShock.Log.ConsoleInfo($"###################################################");
             }
             else
@@ -513,10 +468,9 @@ namespace InfoPlayers
 
                 loginTimes[args.Who] = DateTime.UtcNow; // Registrar tiempo de inicio
                 TShock.Log.ConsoleInfo($"###################################################");
-                TShock.Log.ConsoleInfo($"#          J O I N E D - P L A Y E R               #");
+                TShock.Log.ConsoleInfo($"#         J O I N E D - N E W P L A Y E R         #");
                 TShock.Log.ConsoleInfo($"###################################################");
                 TShock.Log.ConsoleInfo($"[ InfoPlayer ] PLAYER: {playerName} ]");
-                TShock.Log.ConsoleInfo($"[ + ] - PlayTime [ 00:00:00 ]");
                 TShock.Log.ConsoleInfo($"[ + ] - DEVICE: [ {Platforms[args.Who]} ]");
                 TShock.Log.ConsoleInfo($"[ + ] - IP: [ {playerIP} ]");
                 TShock.Log.ConsoleInfo($"[ + ] - COUNTRY: [ {playerCountry} ]");
@@ -525,10 +479,6 @@ namespace InfoPlayers
                 TShock.Log.ConsoleInfo($"[ + ] - SELECTED ITEM: [ [i:{playerSelectedItem}]");
                 TShock.Log.ConsoleInfo($"[ + ] - LIFE: [ {hp} ]");
                 TShock.Log.ConsoleInfo($"[ + ] - MANA: [ {mana} ]");
-                TShock.Log.ConsoleInfo($"[ + ] - CURRENT LIFE: [ {currentHp} ]");
-                TShock.Log.ConsoleInfo($"[ + ] - CURRENT MANA: [ {mana} ]");
-                TShock.Log.ConsoleInfo($"[ + ] - TILES CREATED: [ {PlayerTilesCreated} ]");
-                TShock.Log.ConsoleInfo($"[ + ] - TILES DESTROYED: [ {PlayerTilesDestroyed} ]");
                 TShock.Log.ConsoleInfo($"###################################################");
             }
         }

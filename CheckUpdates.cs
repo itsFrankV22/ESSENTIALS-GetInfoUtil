@@ -39,7 +39,7 @@ namespace CheckUpdates
                 catch
                 {
                     TShock.Log.ConsoleInfo($"###################################################");
-                    TShock.Log.ConsoleInfo($"#  An error occurred while checking for updates.  #", ConsoleColor.Red);
+                    TShock.Log.ConsoleInfo($"#  An error occurred while checking for updates.  #");
                     TShock.Log.ConsoleInfo($"###################################################");
 
                     //TShock.Log.ConsoleInfo($"###################################################");
@@ -61,41 +61,38 @@ namespace CheckUpdates
 
         public static async Task CheckUpdateVerbose(TerrariaPlugin? plugin)
         {
+            var VersionInstalled = await RequestLatestVersion();
+            var AvilableVersion = plugin.Version;
+
             if (plugin == null) return;
 
-            TShock.Log.ConsoleInfo($"###################################################");
-            TShock.Log.ConsoleInfo($"# #####  ####  #####    ##### ###  ## #### #####  #");
-            TShock.Log.ConsoleInfo($"# #      #       #        #   #### ## #    #   #  #");
-            TShock.Log.ConsoleInfo($"# #  ##  ##      #   ##   #   ## #### ###  #   #  #");
-            TShock.Log.ConsoleInfo($"# #   #  #       #        #   ##  ### #    #   #  #");
-            TShock.Log.ConsoleInfo($"# #####  ####    #      ##### ##   ## #    #####  #");
-            TShock.Log.ConsoleInfo($"###################################################");
-            TShock.Log.ConsoleInfo($"#              Checking for updates...            #", ConsoleColor.Cyan);
-            TShock.Log.ConsoleInfo($"###################################################");
+            TShock.Log.ConsoleInfo($"#######################################################");
+            TShock.Log.ConsoleInfo($"#   █████  ████  █████    █████ ███  ██ ████ █████    #");
+            TShock.Log.ConsoleInfo($"#   █      █       █        █   ████ ██ █    █   █    #");
+            TShock.Log.ConsoleInfo($"#   █  ██  ██      █   ██   █   ██ ████ ███  █   █    #");
+            TShock.Log.ConsoleInfo($"#   █   █  █       █        █   ██  ███ █    █   █    #");
+            TShock.Log.ConsoleInfo($"#   █████  ████    █      █████ ██   ██ █    █████    #");
+            TShock.Log.ConsoleInfo($"#######################################################");
+            TShock.Log.ConsoleInfo($"############### Checking for updates... ###############");
 
             bool isUpToDate = await IsUpToDate(plugin);
 
 
             if (isUpToDate)
             {
-                TShock.Log.ConsoleInfo($"###################################################");
-                TShock.Log.ConsoleInfo($"#            Plugin is up to date!!!              #", ConsoleColor.Green);
-                TShock.Log.ConsoleInfo($"###################################################");
+                TShock.Log.ConsoleInfo($"[GetInfoPlayers] Plugin is up to date!!                ");
+                TShock.Log.ConsoleInfo($"#######################################################");
             }
             else
             {
-                TShock.Log.ConsoleInfo($"###################################################");
-                TShock.Log.ConsoleInfo($"#            Plugin is no up to date!!!           #", ConsoleColor.Green);
-                TShock.Log.ConsoleInfo($"###################################################");
-                TShock.Log.ConsoleInfo($"#   Please visit to download the latest version.  #", ConsoleColor.Blue);
-                TShock.Log.ConsoleInfo($"#  https://github.com/itsFrankV22/PlayerGetInfo   #", ConsoleColor.Blue);
-                TShock.Log.ConsoleInfo($"###################################################");
-
-                //TShock.Log.ConsoleInfo($"###################################################");
-                //TShock.Log.ConsoleInfo($"#       Visit to see if there is an update        #", ConsoleColor.Blue);
-                //TShock.Log.ConsoleInfo($"#                  Current: 1.2.0                 #", ConsoleColor.Blue);
-                //TShock.Log.ConsoleInfo($"#  https://github.com/itsFrankV22/PlayerGetInfo   #", ConsoleColor.Blue);
-                //TShock.Log.ConsoleInfo($"###################################################");
+                TShock.Log.ConsoleInfo($"#######################################################");
+               TShock.Log.ConsoleError($"  [ GetInfoPlayers ] Plugin is no up to date!!!        ");
+                TShock.Log.ConsoleInfo($"         INSTALLED: {AvilableVersion}                  ");
+                TShock.Log.ConsoleInfo($"         AVAILABLE: {VersionInstalled}                 ");
+                TShock.Log.ConsoleInfo($"#######################################################");
+                TShock.Log.ConsoleInfo($"#   Please visit to download the latest version.      #");
+                TShock.Log.ConsoleInfo($"#   https://github.com/itsFrankV22/PlayerGetInfo      #");
+                TShock.Log.ConsoleInfo($"#######################################################");
             }
         }
     }

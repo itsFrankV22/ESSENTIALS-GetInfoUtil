@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.34928.147
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlayerGetInfo", "PlayerGetInfo.csproj", "{C785BB39-7058-4AF2-A145-578678ADD9BB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ESSENTIALS GetInfoUtil", "ESSENTIALS GetInfoUtil.csproj", "{C785BB39-7058-4AF2-A145-578678ADD9BB}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PlayerJoinInfo", "PlayerJoinInfo", "{3B40B3B8-21A1-4602-AAB1-1BA775BDE4B2}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ESSENTIALS GetInfoUtil", "ESSENTIALS GetInfoUtil", "{3B40B3B8-21A1-4602-AAB1-1BA775BDE4B2}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PlayerGetInfoREPO", "PlayerGetInfoREPO", "{6EBD24AB-FF99-420C-808B-60776C02B10B}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ESSENTIALS GetInfoUtil", "ESSENTIALS GetInfoUtil", "{6EBD24AB-FF99-420C-808B-60776C02B10B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

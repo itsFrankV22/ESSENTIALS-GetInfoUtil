@@ -25,7 +25,7 @@ El plugin **PlayerGetInfo** para TShock proporciona a los administradores del se
 
 **EXAMPLE OUTDATED PLUGIN CONSOLE**
 
-![image](https://github.com/user-attachments/assets/765c1c87-1313-48f9-a421-a8db6e27ce8f)
+![image](https://github.com/user-attachments/assets/c131aab7-68c7-4688-a7ee-9845afbf0919)
 
 
 ## Características

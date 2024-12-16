@@ -12,22 +12,16 @@
 The **PlayerGetInfo** plugin for TShock provides server administrators with detailed information about players when they join the server or request information about other players. This includes the platform they are playing on, their IP address, and their total playtime since registration. The plugin helps enhance server management by providing quick access to player-specific data.
 
 
-**EXAMPLE WELCOME MESSAGE to ALL PLAYERS**
 
-![image](https://github.com/user-attachments/assets/70c05245-c736-4da4-85b9-0e454a8d5b78)
+![image](https://github.com/user-attachments/assets/06f8bfed-2e9a-44be-a3a0-fa22f1d1cbc4) ![image](https://github.com/user-attachments/assets/2134aaef-6e9b-43ae-ad9e-c989e03281c6)
 
-**EXAMPLE JOIN MESSAGE CONSLE**
+![image](https://github.com/user-attachments/assets/d3904363-9602-4592-ab1b-0e90b1d4c367)
 
-![image](https://github.com/user-attachments/assets/cfd9f394-a0f8-43e0-a7b4-23646529e00f)
+![image](https://github.com/user-attachments/assets/2c811e60-dc0d-4de9-9c21-4a8ca29b561f)
 
-**EXAMPLE UPDATED PLUGIN CONSOLE**
+![image](https://github.com/user-attachments/assets/eec21800-9d8a-4f03-887b-3b3509f0cb06)
 
-![image](https://github.com/user-attachments/assets/e9855a63-220e-4ec5-aa49-2fa89f54f44a)
-
-
-**EXAMPLE OUTDATED PLUGIN CONSOLE**
-
-![image](https://github.com/user-attachments/assets/c131aab7-68c7-4688-a7ee-9845afbf0919)
+![image](https://github.com/user-attachments/assets/bea21da4-2036-4638-a2b2-8888229cab8d)
 
 
 ## Features

@@ -11,22 +11,14 @@
 ## Descripción
 El plugin **PlayerGetInfo** para TShock proporciona a los administradores del servidor información detallada sobre los jugadores cuando se unen al servidor o solicitan información sobre otros jugadores. Esto incluye la plataforma en la que están jugando, su dirección IP y su tiempo de juego total desde la primera vez que se registraron. El plugin ayuda a mejorar la gestión del servidor al proporcionar un acceso rápido a datos específicos de los jugadores.
 
-**EXAMPLE WELCOME MESSAGE to ALL PLAYERS**
-
-![image](https://github.com/user-attachments/assets/70c05245-c736-4da4-85b9-0e454a8d5b78)
-
-**EXAMPLE JOIN MESSAGE CONSLE**
-
-![image](https://github.com/user-attachments/assets/cfd9f394-a0f8-43e0-a7b4-23646529e00f)
-
-**EXAMPLE UPDATED PLUGIN CONSOLE**
-
-![image](https://github.com/user-attachments/assets/e9855a63-220e-4ec5-aa49-2fa89f54f44a)
+![image](https://github.com/user-attachments/assets/06f8bfed-2e9a-44be-a3a0-fa22f1d1cbc4) ![image](https://github.com/user-attachments/assets/2134aaef-6e9b-43ae-ad9e-c989e03281c6)
 
 
-**EXAMPLE OUTDATED PLUGIN CONSOLE**
 
-![image](https://github.com/user-attachments/assets/c131aab7-68c7-4688-a7ee-9845afbf0919)
+![image](https://github.com/user-attachments/assets/bea21da4-2036-4638-a2b2-8888229cab8d) ![image](https://github.com/user-attachments/assets/eec21800-9d8a-4f03-887b-3b3509f0cb06)
+
+
+![image](https://github.com/user-attachments/assets/2c811e60-dc0d-4de9-9c21-4a8ca29b561f)  ![image](https://github.com/user-attachments/assets/d3904363-9602-4592-ab1b-0e90b1d4c367)
 
 
 ## Características

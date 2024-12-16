@@ -15,13 +15,12 @@ The **PlayerGetInfo** plugin for TShock provides server administrators with deta
 
 ![image](https://github.com/user-attachments/assets/06f8bfed-2e9a-44be-a3a0-fa22f1d1cbc4) ![image](https://github.com/user-attachments/assets/2134aaef-6e9b-43ae-ad9e-c989e03281c6)
 
-![image](https://github.com/user-attachments/assets/d3904363-9602-4592-ab1b-0e90b1d4c367)
 
-![image](https://github.com/user-attachments/assets/2c811e60-dc0d-4de9-9c21-4a8ca29b561f)
 
-![image](https://github.com/user-attachments/assets/eec21800-9d8a-4f03-887b-3b3509f0cb06)
+![image](https://github.com/user-attachments/assets/bea21da4-2036-4638-a2b2-8888229cab8d) ![image](https://github.com/user-attachments/assets/eec21800-9d8a-4f03-887b-3b3509f0cb06)
 
-![image](https://github.com/user-attachments/assets/bea21da4-2036-4638-a2b2-8888229cab8d)
+
+![image](https://github.com/user-attachments/assets/2c811e60-dc0d-4de9-9c21-4a8ca29b561f)  ![image](https://github.com/user-attachments/assets/d3904363-9602-4592-ab1b-0e90b1d4c367)
 
 
 ## Features

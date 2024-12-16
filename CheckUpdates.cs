@@ -38,13 +38,9 @@ namespace CheckUpdates
                 }
                 catch
                 {
-                    TShock.Log.ConsoleInfo($"###################################################");
-                    TShock.Log.ConsoleInfo($"#  An error occurred while checking for updates.  #");
-                    TShock.Log.ConsoleInfo($"###################################################");
-
-                    //TShock.Log.ConsoleInfo($"###################################################");
-                    //TShock.Log.ConsoleInfo($"#            Feature still in progress.           #", ConsoleColor.Red);
-                    //TShock.Log.ConsoleInfo($"###################################################");
+                    TShock.Log.ConsoleInfo($"╔════════════════════════════════════════════════╗");
+                    TShock.Log.ConsoleInfo($"║  An error occurred while checking for updates. ║");
+                    TShock.Log.ConsoleInfo($"╚════════════════════════════════════════════════╝");
                 }
             }
 
@@ -66,33 +62,35 @@ namespace CheckUpdates
 
             if (plugin == null) return;
 
-            TShock.Log.ConsoleInfo($"#######################################################");
-            TShock.Log.ConsoleInfo($"#   █████  ████  █████    █████ ███  ██ ████ █████    #");
-            TShock.Log.ConsoleInfo($"#   █      █       █        █   ████ ██ █    █   █    #");
-            TShock.Log.ConsoleInfo($"#   █  ██  ██      █   ██   █   ██ ████ ███  █   █    #");
-            TShock.Log.ConsoleInfo($"#   █   █  █       █        █   ██  ███ █    █   █    #");
-            TShock.Log.ConsoleInfo($"#   █████  ████    █      █████ ██   ██ █    █████    #");
-            TShock.Log.ConsoleInfo($"#######################################################");
-            TShock.Log.ConsoleInfo($"############### Checking for updates... ###############");
+            TShock.Log.ConsoleInfo($"╔════════════════════════════════════════════════╗");
+            TShock.Log.ConsoleInfo($"║ █████  ████  █████    █████ ███  ██ ████ █████ ║");
+            TShock.Log.ConsoleInfo($"║ █      █       █        █   ████ ██ █    █   █ ║");
+            TShock.Log.ConsoleInfo($"║ █  ██  ██      █   ██   █   ██ ████ ███  █   █ ║");
+            TShock.Log.ConsoleInfo($"║ █   █  █       █        █   ██  ███ █    █   █ ║");
+            TShock.Log.ConsoleInfo($"║ █████  ████    █      █████ ██   ██ █    █████ ║");
+            TShock.Log.ConsoleInfo($"║                                                ║");
+            TShock.Log.ConsoleInfo($"║              Checking for updates...           ║");
+            TShock.Log.ConsoleInfo($"╚════════════════════════════════════════════════╝");
 
             bool isUpToDate = await IsUpToDate(plugin);
 
 
             if (isUpToDate)
             {
-                TShock.Log.ConsoleInfo($"[GetInfoPlayers] Plugin is up to date!!                ");
-                TShock.Log.ConsoleInfo($"#######################################################");
+                TShock.Log.ConsoleInfo($"╔════════════════════════════════════════════════╗");
+                TShock.Log.ConsoleInfo($"║   [GetInfoPlayers] Plugin is up to date!!      ║");
+                TShock.Log.ConsoleInfo($"╚════════════════════════════════════════════════╝");
             }
             else
             {
-                TShock.Log.ConsoleInfo($"#######################################################");
-               TShock.Log.ConsoleError($"  [ GetInfoPlayers ] Plugin is no up to date!!!        ");
-                TShock.Log.ConsoleInfo($"         INSTALLED: {AvilableVersion}                  ");
-                TShock.Log.ConsoleInfo($"         AVAILABLE: {VersionInstalled}                 ");
-                TShock.Log.ConsoleInfo($"#######################################################");
-                TShock.Log.ConsoleInfo($"#   Please visit to download the latest version.      #");
-                TShock.Log.ConsoleInfo($"#   https://github.com/itsFrankV22/PlayerGetInfo      #");
-                TShock.Log.ConsoleInfo($"#######################################################");
+                TShock.Log.ConsoleInfo($"╔════════════════════════════════════════════════╗");
+               TShock.Log.ConsoleError($"║ [ GetInfoPlayers ] Plugin is no up to date!!!  ║");
+                TShock.Log.ConsoleInfo($"║      INSTALLED: {AvilableVersion}                         ║");
+                TShock.Log.ConsoleInfo($"║      AVAILABLE: {VersionInstalled}                       ║");
+                TShock.Log.ConsoleInfo($"║                                                ║");
+                TShock.Log.ConsoleInfo($"║  Please visit to download the latest version.  ║");
+                TShock.Log.ConsoleInfo($"║  https://github.com/itsFrankV22/PlayerGetInfo  ║");
+                TShock.Log.ConsoleInfo($"╚════════════════════════════════════════════════╝");
             }
         }
     }

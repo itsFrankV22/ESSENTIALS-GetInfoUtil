@@ -15,7 +15,7 @@ using Microsoft.Data.Sqlite;
 using CheckUpdates;
 using System.Security.Cryptography.X509Certificates;
 using static Org.BouncyCastle.Math.EC.ECCurve;
-using ESSENTIALS_GetInfoUtil;
+//using ESSENTIALS_GetInfoUtil;
 
 namespace InfoPlayers
 {
@@ -23,9 +23,9 @@ namespace InfoPlayers
     public class PlayerJoinInfo : TerrariaPlugin
     {
         public override string Author => "FrankV22";
-        public override string Description => "Muestra info Importante y mejor orden";
+        public override string Description => "Show Info and better comand info";
         public override string Name => "ESSENTIALS GetInfoUtil";
-        public override Version Version => new Version(1, 4, 0);
+        public override Version Version => new Version(1, 5, 0);
 
         public static IDbConnection Db { get; private set; }
 
@@ -49,11 +49,8 @@ namespace InfoPlayers
 
         public override void Initialize()
         {
-            GetDataHandlers.KillMe += OnPlayerKill;
 
             ServerApi.Hooks.GamePostInitialize.Register(this, OnPostInitialize);
-
-            LoadFirstLoginTimes(); // Cargar tiempos de la base de datos o archivo
 
             ServerApi.Hooks.NetGreetPlayer.Register(this, this.OnPlayerJoin, 9);
 
@@ -63,6 +60,7 @@ namespace InfoPlayers
 
             Commands.ChatCommands.Add(new Command("getinfo.admin", this.InfoCommand, "getinfo", "gi"));
             Commands.ChatCommands.Add(new Command("getinfo.user", this.InfoCommandUser, "getinfouser", "giu"));
+
         }
 
         protected override void Dispose(bool disposing)
@@ -71,13 +69,11 @@ namespace InfoPlayers
 
             if (disposing)
             {
-                GetDataHandlers.KillMe -= OnPlayerKill;
 
                 ServerApi.Hooks.NetGreetPlayer.Deregister(this, OnGreetPlayer);
 
 
                 ServerApi.Hooks.GamePostInitialize.Deregister(this, OnPostInitialize);
-                SaveFirstLoginTimes(); // Guardar antes de desactivar
                 ServerApi.Hooks.NetGreetPlayer.Deregister(this, this.OnPlayerJoin);
                 On.OTAPI.Hooks.MessageBuffer.InvokeGetData -= this.OnGetData;
                 ServerApi.Hooks.NetGreetPlayer.Deregister(this, this.OnGreet);
@@ -87,17 +83,23 @@ namespace InfoPlayers
         }
 
 
+        // #####################################################################################################
+        // #####################################################################################################
+        //                          R E L O A D    -   C O M M A N D
+        // #####################################################################################################
+        // #####################################################################################################
+
         private void OnReload(ReloadEventArgs reloadEventArgs)
         {
-            TShock.Log.ConsoleInfo($"###################################################");
-            TShock.Log.ConsoleInfo($"# █████  ████  █████    █████ ███  ██ ████ █████  #");
-            TShock.Log.ConsoleInfo($"# █      █       █        █   ████ ██ █    █   █  #");
-            TShock.Log.ConsoleInfo($"# █  ██  ██      █   ██   █   ██ ████ ███  █   █  #");
-            TShock.Log.ConsoleInfo($"# █   █  █       █        █   ██  ███ █    █   █  #");
-            TShock.Log.ConsoleInfo($"# █████  ████    █      █████ ██   ██ █    █████  #");
-            TShock.Log.ConsoleInfo($"###################################################");
-            TShock.Log.ConsoleInfo($"#     GetInfoPlugin - Recargado  - GOD LUCK!      #");
-            TShock.Log.ConsoleInfo($"###################################################");
+            TShock.Log.ConsoleInfo($"╔════════════════════════════════════════════════╗");
+            TShock.Log.ConsoleInfo($"║ █████  ████  █████    █████ ███  ██ ████ █████ ║");
+            TShock.Log.ConsoleInfo($"║ █      █       █        █   ████ ██ █    █   █ ║");
+            TShock.Log.ConsoleInfo($"║ █  ██  ██      █   ██   █   ██ ████ ███  █   █ ║");
+            TShock.Log.ConsoleInfo($"║ █   █  █       █        █   ██  ███ █    █   █ ║");
+            TShock.Log.ConsoleInfo($"║ █████  ████    █      █████ ██   ██ █    █████ ║");
+            TShock.Log.ConsoleInfo($"║                                                ║");
+            TShock.Log.ConsoleInfo($"║     GetInfoPlugin - RELOADED   - GOD LUCK!     ║");
+            TShock.Log.ConsoleInfo($"╚════════════════════════════════════════════════╝");
         }
 
 
@@ -111,55 +113,6 @@ namespace InfoPlayers
         {
             await CheckUpdates.CheckUpdates.CheckUpdateVerbose(this);
         }
-
-
-
-        // #####################################################################################################
-        // #####################################################################################################
-        //                          P L A Y E R S    -   K I L L  C O U N T
-        // #####################################################################################################
-        // #####################################################################################################
-
-        private void OnPlayerKill(object sender, GetDataHandlers.KillMeEventArgs args)
-        {
-            try
-            {
-                var player = TShock.Players[args.PlayerId];
-                if (player != null && player.Active)
-                {
-                    //KillCounter.RegisterKill(player.Name);
-                    //player.SendInfoMessage($"¡Has matado a un jugador! Kills totales: {KillCounter.PlayerKills[player.Name]}");
-
-                }
-            }
-            catch (Exception)
-            {
-
-                TShock.Log.ConsoleInfo($"TEST Kill BAD!");
-            }
-        }
-
-        // #####################################################################################################
-        // #####################################################################################################
-        //                          P L A Y E R S    -   P L A Y T I M E  C O U N T
-        // #####################################################################################################
-        // #####################################################################################################
-
-        private void LoadFirstLoginTimes()
-        {
-            if (File.Exists("tshock/firstLoginTimes.json"))
-            {
-                var json = File.ReadAllText("tshock/firstLoginTimes.json");
-                firstLoginTimes = JsonConvert.DeserializeObject<Dictionary<int, DateTime>>(json) ?? new();
-            }
-        }
-
-        private void SaveFirstLoginTimes()
-        {
-            var json = JsonConvert.SerializeObject(firstLoginTimes, Formatting.Indented);
-            File.WriteAllText("tshock/firstLoginTimes.json", json);
-        }
-
 
         // #####################################################################################################
         // #####################################################################################################
@@ -176,91 +129,53 @@ namespace InfoPlayers
                 args.Handled = true;
                 return;
             }
-
-            //string name = player.Name;
-            //var PlayerCountry = player.Country ?? "Unknown";
-
-            //// Mensaje personalizado
-            //string customMessage =
-            //            $"[ + ] [ GET-INFO-PLUGIN ] [ PLAYER JOINED ]\n" +
-            //            $"[ {InfoTool.GetPlatform(player)} ][ {name} ] From: {PlayerCountry}!";
-
-            //var messageColor = new Microsoft.Xna.Framework.Color(0, 255, 255);
-
-            //// Envía el mensaje personalizado
-            //TSPlayer.All.SendMessage(customMessage, messageColor);
-
             args.Handled = true;
         }
 
 
+
+
         private void OnPlayerJoin(GreetPlayerEventArgs args)
         {
-
-
             var player = TShock.Players[args.Who];
             if (player != null)
             {
-                player.SilentJoinInProgress = true; // Evita el mensaje predeterminado
+                player.SilentJoinInProgress = true; // Evitar mensaje predeterminado
+
+                // Esperar 1 segundo antes de obtener estadísticas
+                Task.Delay(1000).ContinueWith(_ =>
+                {
+                    string name = player.Name;
+                    int maxHp = player.TPlayer.statLifeMax2;  // Vida máxima
+                    int currentHp = player.TPlayer.statLife; // Vida actual
+                    int maxMana = player.TPlayer.statManaMax2; // Maná máximo
+                    int currentMana = player.TPlayer.statMana; // Maná actual
+                    int defense = player.TPlayer.statDefense; // Defensa actual
+
+                    string playerCountry = player.Country ?? "Unknown";
+
+                    // Mensajes al jugador
+                    player.SendInfoMessage($"║  Y O U R  -  S T A T S ║");
+                    player.SendInfoMessage($"  [i:29] [c/FF6666:LIFE:] [ {currentHp}/{maxHp} ]");
+                    player.SendInfoMessage($"  [i:109] [c/00E5FF:MANA:] [ {currentMana}/{maxMana} ]");
+                    player.SendInfoMessage($"  [i:938] [c/66B2FF:DEFENSE:] [ {defense} ]");
+                    player.SendInfoMessage($"  [i:4080] [c/FFCC66:COUNTRY:] [ {playerCountry} ]");
+                });
 
 
                 string name = player.Name;
-                var hp = player.TPlayer.statLifeMax2;
-                var mana = player.TPlayer.statManaMax2;
-                var currentHp = player.TPlayer.statLife;
-                var currentMana = player.TPlayer.statMana;
-                var groupName = player.Group.Name;
-                var groupPrefix = player.Group.Prefix;
+                string playerCountry  = player.Country;
 
-                var PlayerTilesCreated = player.TilesCreated.Count;
-                var PlayerTilesDestroyed = player.TilesDestroyed.Count;
+                // Mensaje personalizado para todos los jugadores
+                string customMessage =
+                    $"[ + ] [ PLAYER JOINED!! ]\n" +
+                    $"[ {InfoTool.GetPlatform(player)} ][ {name} ] From: [c/FFB000:{playerCountry}] Welcome!";
 
-                string PlayerTeam = player.Team.ToString();
-                string PlayerSelectedItem = player.SelectedItem.netID.ToString();
-                string PlayerCountry = player.Country;
-                string playerIP = player.IP;
-                string playerGroup = player.Group.Name;
-                string playerUUID = player.UUID;
-                string playerID = player.UUID;
-                if (!firstLoginTimes.ContainsKey(args.Who))
-                {
-                    // Registrar la primera vez que el jugador se conecta
-                    firstLoginTimes[args.Who] = DateTime.UtcNow;
-                    SaveFirstLoginTimes();
-
-
-                    player.SendInfoMessage($"[ + ][ GetInfoUtils ] by{Author} v{Version} please follow in Youtube Discord etc");
-
-                    // Mensaje personalizado
-                    string customMessage =
-                        $"[ + ] [ PLAYER JOIN!! ]\n" +
-                        $"[ {InfoTool.GetPlatform(player)} ][ {name} ] From: {PlayerCountry} Welcome!";
-
-                    var messageColor = new Microsoft.Xna.Framework.Color(0, 255, 255);
-
-                    // Envía el mensaje personalizado
-                    TSPlayer.All.SendMessage(customMessage, messageColor);
-                }
-                else
-                {
-                    var firstLoginTime = firstLoginTimes[args.Who];
-                    var playTime = DateTime.UtcNow - firstLoginTime;
-
-                    string formattedPlayTime = $"{(int)playTime.TotalHours:D2}:{playTime.Minutes:D2}:{playTime.Seconds:D2}";
-                    player.SendInfoMessage($"[ + ][ GetInfoUtils ] by{Author} v{Version} please follow in Youtube Discord etc");
-
-                    // Mensaje personalizado
-                    string customMessage =
-                        $"[ + ] [ PLAYER JOIN!! ]\n" +
-                        $"[ {InfoTool.GetPlatform(player)} ][ {name} ] From: {PlayerCountry} Welcome!";
-
-                    var messageColor = new Microsoft.Xna.Framework.Color(0, 255, 255);
-
-                    // Envía el mensaje personalizado
-                    TSPlayer.All.SendMessage(customMessage, messageColor);
-                }
+                var messageColor = new Microsoft.Xna.Framework.Color(0, 255, 255);
+                TSPlayer.All.SendMessage(customMessage, messageColor);
             }
         }
+
 
         // #####################################################################################################
         // #####################################################################################################
@@ -269,153 +184,44 @@ namespace InfoPlayers
         // #####################################################################################################
         private void InfoCommandUser(CommandArgs args)
         {
-            if (args.Parameters.Count == 1)
+            if (args.Parameters.Count == 1) // Validar que el comando tenga un parámetro
             {
-                if (args.Parameters.Count == 1)
+                var plys = TSPlayer.FindByNameOrID(args.Parameters[0]); // Buscar jugadores por nombre o ID
+
+                if (plys.Count > 0) // Verificar si se encontró al menos un jugador
                 {
-                    var plys = TSPlayer.FindByNameOrID(args.Parameters[0]);
-                    if (plys.Count > 0)
-                    {
-                        var targetPlayer = plys[0];
-                        string name = targetPlayer.Name;
-                        var hp = targetPlayer.TPlayer.statLifeMax2;
-                        var mana = targetPlayer.TPlayer.statManaMax2;
-                        var currentHp = targetPlayer.TPlayer.statLife;
-                        var currentMana = targetPlayer.TPlayer.statMana;
-                        var groupName = targetPlayer.Group.Name;
-                        var groupPrefix = targetPlayer.Group.Prefix;
+                    TSPlayer targetPlayer = plys[0]; // Asignar el primer jugador encontrado
 
-
-
-                        var PlayerTilesCreated = targetPlayer.TilesCreated.Count;
-                        var PlayerTilesDestroyed = targetPlayer.TilesDestroyed.Count;
-
-                        string PlayerSelectedItem = targetPlayer.SelectedItem.netID.ToString();
-                        string PlayerCountry = targetPlayer.Country;
-                        string playerIP = targetPlayer.IP;
-                        string playerGroup = targetPlayer.Group.Name;
-                        var platform = InfoTool.GetPlatform(targetPlayer);
-
-                        if (firstLoginTimes.TryGetValue(targetPlayer.Index, out DateTime firstLoginTime))
-                        {
-                            var playTime = DateTime.UtcNow - firstLoginTime;
-                            string formattedPlayTime = $"{(int)playTime.TotalHours:D2}:{playTime.Minutes:D2}:{playTime.Seconds:D2}";
-
-
-                            args.Player.SendInfoMessage($"#####################################");
-                            args.Player.SendInfoMessage($"#          USER - INFO              #");
-                            args.Player.SendInfoMessage($"#####################################");
-                            args.Player.SendInfoMessage($"#  [ InfoPlayer ] PLAYER: {targetPlayer.Name} ]");
-                            args.Player.SendInfoMessage($"#  [ + ] - DEVICE: [ {InfoTool.GetPlatform(targetPlayer)} ]");
-                            args.Player.SendInfoMessage($"#  [ + ] - COUNTRY: [ {PlayerCountry} ]");
-                            args.Player.SendInfoMessage($"#  [ + ] - SELECTED ITEM: [ [i:{PlayerSelectedItem}]");
-                            args.Player.SendInfoMessage($"#  [ + ] - LIFE: [ {hp} ]");
-                            args.Player.SendInfoMessage($"#  [ + ] - LIFE: [ {mana} ]");
-                            args.Player.SendInfoMessage($"######################################");
-                        }
-                        else
-                        {
-                            args.Player.SendInfoMessage($"#####################################");
-                            args.Player.SendInfoMessage($"#          USER - INFO              #");
-                            args.Player.SendInfoMessage($"#####################################");
-                            args.Player.SendInfoMessage($"#  [ InfoPlayer ] PLAYER: {targetPlayer.Name} ]");
-                            args.Player.SendInfoMessage($"#  [ + ] - DEVICE: [ {InfoTool.GetPlatform(targetPlayer)} ]");
-                            args.Player.SendInfoMessage($"#  [ + ] - COUNTRY: [ {PlayerCountry} ]");
-                            args.Player.SendInfoMessage($"#  [ + ] - SELECTED ITEM: [ [i:{PlayerSelectedItem}]");
-                            args.Player.SendInfoMessage($"#  [ + ] - LIFE: [ {hp} ]");
-                            args.Player.SendInfoMessage($"#  [ + ] - LIFE: [ {mana} ]");
-                            args.Player.SendInfoMessage($"######################################");
-                        }
-                    }
-                    else
+                    if (targetPlayer == null || !targetPlayer.Active) // Verificar si el jugador está activo
                     {
                         args.Player.SendErrorMessage("The player is not online!");
+                        return;
                     }
-                }
-                else
-                {
-                    args.Player.SendErrorMessage("[ - ] Syntax error.");
-                    args.Player.SendInfoMessage("/getinfouser <Player name>");
-                    args.Player.SendInfoMessage("/giu <Player name>");
-                }
-            }
-        }
 
-        // #####################################################################################################
-        // #####################################################################################################
-        //                          P L A Y E R S    -   A D M I N C O M M A N D
-        // #####################################################################################################
-        // #####################################################################################################
-        private void InfoCommand(CommandArgs args)
-        {
-
-            if (args.Parameters.Count == 1)
-            {
-                var plys = TSPlayer.FindByNameOrID(args.Parameters[0]);
-                if (plys.Count > 0)
-                {
-
-                    var targetPlayer = plys[0];
-                    var platform = InfoTool.GetPlatform(targetPlayer);
-
-
+                    // Obtener información del jugador objetivo
+                    string playerCountry = targetPlayer.Country ?? "Unknown"; // País del jugador
+                    string playerSelectedItem = targetPlayer.SelectedItem?.netID.ToString() ?? "None"; // Objeto seleccionado
                     string name = targetPlayer.Name;
-                    var hp = targetPlayer.TPlayer.statLifeMax2;
-                    var mana = targetPlayer.TPlayer.statManaMax2;
-                    var currentHp = targetPlayer.TPlayer.statLife;
-                    var currentMana = targetPlayer.TPlayer.statMana;
-                    var groupName = targetPlayer.Group.Name;
-                    var groupPrefix = targetPlayer.Group.Prefix;
+                    int maxHp = targetPlayer.TPlayer.statLifeMax2;  // Vida máxima
+                    int currentHp = targetPlayer.TPlayer.statLife; // Vida actual
+                    int maxMana = targetPlayer.TPlayer.statManaMax2; // Maná máximo
+                    int currentMana = targetPlayer.TPlayer.statMana; // Maná actual
+                    int defense = targetPlayer.TPlayer.statDefense; // Defensa actual
+                    var platform = InfoTool.GetPlatform(targetPlayer); // Dispositivo del jugador
 
-                    var PlayerTilesCreated = targetPlayer.TilesCreated.Count;
-                    var PlayerTilesDestroyed = targetPlayer.TilesDestroyed.Count;
-
-                    string playerCountry = targetPlayer.Country;
-                    string playerTeam = targetPlayer.Team.ToString();
-                    string playerSelectedItem = targetPlayer.SelectedItem.netID.ToString();
-                    string playerName = targetPlayer.Name;
-                    string playerGroup = targetPlayer.Group.Name;
-                    string playerUUID = targetPlayer.UUID;
-                    string playerIP = targetPlayer.IP;
-
-                    if (firstLoginTimes.TryGetValue(targetPlayer.Index, out DateTime firstLoginTime))
-                    {
-
-                        var playTime = DateTime.UtcNow - firstLoginTime;
-                        string formattedPlayTime = $"{(int)playTime.TotalHours:D2}:{playTime.Minutes:D2}:{playTime.Seconds:D2}";
-
-
-                        args.Player.SendInfoMessage($"#######################################################");
-                        args.Player.SendInfoMessage($"#               I N F O  - P L A Y E R                #");
-                        args.Player.SendInfoMessage($"#######################################################");
-                        args.Player.SendInfoMessage($"  [ InfoPlayer ] PLAYER: [ {playerName} ]");
-                        args.Player.SendInfoMessage($"  [ + ] - DEVICE: [ {InfoTool.GetPlatform(targetPlayer)} ]");
-                        args.Player.SendInfoMessage($"  [ + ] - IP: [ {playerIP} ]");
-                        args.Player.SendInfoMessage($"  [ + ] - COUNTRY: [ {playerCountry} ]");
-                        args.Player.SendInfoMessage($"  [ + ] - TEAM: [ {playerTeam} ]");
-                        args.Player.SendInfoMessage($"  [ + ] - GROUP: [ {playerGroup} ]");
-                        args.Player.SendInfoMessage($"  [ + ] - SELECTED ITEM: [ [i:{playerSelectedItem} ]");
-                        args.Player.SendInfoMessage($"  [ + ] - LIFE: [ {hp} ]");
-                        args.Player.SendInfoMessage($"  [ + ] - LIFE: [ {mana} ]");
-                        args.Player.SendInfoMessage($"#######################################################");
-                    }
-                    else
-                    {
-
-                        args.Player.SendInfoMessage($"#######################################################");
-                        args.Player.SendInfoMessage($"#               I N F O  - P L A Y E R                #");
-                        args.Player.SendInfoMessage($"#######################################################");
-                        args.Player.SendInfoMessage($"  [ InfoPlayer ] PLAYER: [ {playerName} ]");
-                        args.Player.SendInfoMessage($"  [ + ] - DEVICE: [ {InfoTool.GetPlatform(targetPlayer)} ]");
-                        args.Player.SendInfoMessage($"  [ + ] - IP: [ {playerIP} ]");
-                        args.Player.SendInfoMessage($"  [ + ] - COUNTRY: [ {playerCountry} ]");
-                        args.Player.SendInfoMessage($"  [ + ] - TEAM: [ {playerTeam} ]");
-                        args.Player.SendInfoMessage($"  [ + ] - GROUP: [ {playerGroup} ]");
-                        args.Player.SendInfoMessage($"  [ + ] - SELECTED ITEM: [ [i:{playerSelectedItem}] ]");
-                        args.Player.SendInfoMessage($"  [ + ] - LIFE: [ {hp} ]");
-                        args.Player.SendInfoMessage($"  [ + ] - LIFE: [ {mana} ]");
-                        args.Player.SendInfoMessage($"#######################################################");
-                    }
+                    // Mensajes para mostrar información al jugador que ejecutó el comando
+                    args.Player.SendInfoMessage($"╔═══════════════════════════════════════════════╗");
+                    args.Player.SendInfoMessage($"║  // USER - INFO                               ║");
+                    args.Player.SendInfoMessage($"╚═══════════════════════════════════════════════╝");
+                    args.Player.SendInfoMessage($"  [ InfoPlayer ] PLAYER: [ {name} ]");
+                    args.Player.SendInfoMessage($"  [ + ] - DEVICE: [ {platform} ]");
+                    args.Player.SendInfoMessage($"  [ + ] - COUNTRY: [ {playerCountry} ]");
+                    args.Player.SendInfoMessage($"  [ + ] - SELECTED ITEM: [ [i:{playerSelectedItem}] ]");
+                    args.Player.SendInfoMessage($"════════════════════════════════════════════════");
+                    args.Player.SendInfoMessage($"  [i:29] [c/FF6666:LIFE:] [ {currentHp}/{maxHp} ]");
+                    args.Player.SendInfoMessage($"  [i:109] [c/00E5FF:MANA:] [ {currentMana}/{maxMana} ]");
+                    args.Player.SendInfoMessage($"  [i:938] [c/66B2FF:DEFENSE:] [ {defense} ]");
+                    args.Player.SendInfoMessage($"╚═══════════════════════════════════════════════╝");
                 }
                 else
                 {
@@ -424,9 +230,80 @@ namespace InfoPlayers
             }
             else
             {
+                // Mensaje de error en caso de sintaxis incorrecta
+                args.Player.SendErrorMessage("[ - ] Syntax error.");
+                args.Player.SendInfoMessage("/getinfouser <Player name>");
+                args.Player.SendInfoMessage("/giu <Player name>");
+            }
+        }
+
+
+        // #####################################################################################################
+        // #####################################################################################################
+        //                          P L A Y E R S    -   A D M I N C O M M A N D
+        // #####################################################################################################
+        // #####################################################################################################
+        private void InfoCommand(CommandArgs args)
+        {
+            if (args.Parameters.Count == 1)
+            {
+                var plys = TSPlayer.FindByNameOrID(args.Parameters[0]);
+
+                if (plys.Count > 0)
+                {
+                    TSPlayer targetPlayer = plys[0];
+
+                    if (targetPlayer == null || !targetPlayer.Active) // Validar si el jugador está activo
+                    {
+                        args.Player.SendErrorMessage("The player is not online!");
+                        return;
+                    }
+
+                    // Información del jugador
+                    string playerName = targetPlayer.Name;
+                    string playerCountry = targetPlayer.Country ?? "Unknown";
+                    string playerIP = targetPlayer.IP ?? "Hidden";
+                    string playerUUID = targetPlayer.UUID ?? "Unavailable";
+                    string playerGroup = targetPlayer.Group.Name ?? "None";
+                    string playerGroupPrefix = targetPlayer.Group.Prefix ?? "None";
+                    string playerTeam = targetPlayer.Team.ToString();
+                    string playerSelectedItem = targetPlayer.SelectedItem?.netID.ToString() ?? "None";
+                    int currentHp = targetPlayer.TPlayer.statLife;
+                    int maxHp = targetPlayer.TPlayer.statLifeMax2;
+                    int currentMana = targetPlayer.TPlayer.statMana;
+                    int maxMana = targetPlayer.TPlayer.statManaMax2;
+                    int defense = targetPlayer.TPlayer.statDefense;
+                    var platform = InfoTool.GetPlatform(targetPlayer);
+
+                    // Mostrar mensajes al jugador que ejecutó el comando
+                    args.Player.SendInfoMessage($"╔═══════════════════════════════════════════════╗");
+                    args.Player.SendInfoMessage($"║               I N F O - P L A Y E R           ║");
+                    args.Player.SendInfoMessage($"╚═══════════════════════════════════════════════╝");
+                    args.Player.SendInfoMessage($"  [ InfoPlayer ] PLAYER: [ {playerName} ]");
+                    args.Player.SendInfoMessage($"  [ + ] - DEVICE: [ {platform} ]");
+                    args.Player.SendInfoMessage($"  [ + ] - IP: [ {playerIP} ]");
+                    args.Player.SendInfoMessage($"  [ + ] - UUID: [ {playerUUID} ]");
+                    args.Player.SendInfoMessage($"  [ + ] - COUNTRY: [ {playerCountry} ]");
+                    args.Player.SendInfoMessage($"  [ + ] - TEAM: [ {playerTeam} ]");
+                    args.Player.SendInfoMessage($"  [ + ] - GROUP: [ {playerGroup} ] (Prefix: {playerGroupPrefix})");
+                    args.Player.SendInfoMessage($"  [ + ] - SELECTED ITEM: [ [i:{playerSelectedItem}] ]");
+                    args.Player.SendInfoMessage($"════════════════════════════════════════════════");
+                    args.Player.SendInfoMessage($"  [ STATS ]");
+                    args.Player.SendInfoMessage($"  [c/FF6666:LIFE:] [ Current: {currentHp} / Max: {maxHp} ]");
+                    args.Player.SendInfoMessage($"  [c/00E5FF:MANA:] [ Current: {currentMana} / Max: {maxMana} ]");
+                    args.Player.SendInfoMessage($"  [c/66B2FF:DEFENSE:] [ {defense} ]");
+                    args.Player.SendInfoMessage($"╚═══════════════════════════════════════════════╝");
+                }
+                else
+                {
+                    args.Player.SendErrorMessage("The player is not online!");
+                }
+            }
+            else
+            {
+                // Error de sintaxis
                 args.Player.SendErrorMessage("[ - ] Syntax error.");
                 args.Player.SendInfoMessage("/getinfo <Player name>");
-
                 args.Player.SendInfoMessage("/gi <Player name>");
             }
         }
@@ -438,74 +315,53 @@ namespace InfoPlayers
         // #####################################################################################################
         private void OnGreet(GreetPlayerEventArgs args)
         {
-
+            // Obtener el jugador
             var player = TShock.Players[args.Who];
             if (player == null)
             {
                 return;
             }
 
-
-            string name = player.Name;
-            var hp = player.TPlayer.statLifeMax2;
-            var mana = player.TPlayer.statManaMax2;
-            var currentHp = player.TPlayer.statLife;
-            var currentMana = player.TPlayer.statMana;
-            var groupName = player.Group.Name;
-            var groupPrefix = player.Group.Prefix;
-            var PlayerTilesCreated = player.TilesCreated.Count;
-            var PlayerTilesDestroyed = player.TilesDestroyed.Count;
+            // Información básica del jugador
+            string playerName = player.Name;
+            string playerIP = player.IP;
+            string playerUUID = player.UUID;
             string playerCountry = player.Country;
             string playerTeam = player.Team.ToString();
-            string playerSelectedItem = player.SelectedItem.netID.ToString();
-            string playerName = player.Name;
             string playerGroup = player.Group.Name;
-            string playerUUID = player.UUID;
-            string playerIP = player.IP;
+            string groupPrefix = player.Group.Prefix;
+            string playerSelectedItem = player.SelectedItem.netID.ToString();
+            int defense = player.TPlayer.statDefense; // Defensa actual
 
-            if (firstLoginTimes.TryGetValue(player.Index, out DateTime firstLoginTime))
-            {
+            // Estadísticas de vida y maná
+            int maxLife = player.TPlayer.statLifeMax2;
+            int currentLife = player.TPlayer.statLife;
+            int maxMana = player.TPlayer.statManaMax2;
+            int currentMana = player.TPlayer.statMana;
 
-                var playTime = DateTime.UtcNow - firstLoginTime;
-                string formattedPlayTime = $"{(int)playTime.TotalHours:D2}:{playTime.Minutes:D2}:{playTime.Seconds:D2}";
+            // Registrar el tiempo de inicio
+            loginTimes[args.Who] = DateTime.UtcNow;
 
+            // Registro en consola
+            TShock.Log.ConsoleInfo($"╔═══════════════════════════════════════════════╗");
+            TShock.Log.ConsoleInfo($"║             J O I N E D - P L A Y E R         ║");
+            TShock.Log.ConsoleInfo($"╚═══════════════════════════════════════════════╝");
+            TShock.Log.ConsoleInfo($"  [InfoPlayer] PLAYER: [ {playerName} ]");
+            TShock.Log.ConsoleInfo($"  [ + ] - DEVICE: [ {Platforms[args.Who]} ]");
+            TShock.Log.ConsoleInfo($"  [ + ] - IP: [ {playerIP} ]");
+            TShock.Log.ConsoleInfo($"  [ + ] - COUNTRY: [ {playerCountry} ]");
+            TShock.Log.ConsoleInfo($"  [ + ] - TEAM: [ {playerTeam} ]");
+            TShock.Log.ConsoleInfo($"  [ + ] - GROUP: [ {playerGroup} ]");
+            TShock.Log.ConsoleInfo($"  [ + ] - SELECTED ITEM: [ [i:{playerSelectedItem}] ]");
 
-                loginTimes[args.Who] = DateTime.UtcNow; // Registrar tiempo de inicio
-                TShock.Log.ConsoleInfo($"###################################################");
-                TShock.Log.ConsoleInfo($"#          J O I N E D - P L A Y E R              #");
-                TShock.Log.ConsoleInfo($"###################################################");
-                TShock.Log.ConsoleInfo($"[ InfoPlayer ] PLAYER: {playerName} ]");
-                TShock.Log.ConsoleInfo($"[ + ] - DEVICE: [ {Platforms[args.Who]} ]");
-                TShock.Log.ConsoleInfo($"[ + ] - IP: [ {playerIP} ]");
-                TShock.Log.ConsoleInfo($"[ + ] - COUNTRY: [ {playerCountry} ]");
-                TShock.Log.ConsoleInfo($"[ + ] - TEAM: [ {playerTeam} ]");
-                TShock.Log.ConsoleInfo($"[ + ] - GROUP: [ {playerGroup} ]");
-                TShock.Log.ConsoleInfo($"[ + ] - SELECTED ITEM: [ [i:{playerSelectedItem}]");
-                TShock.Log.ConsoleInfo($"[ + ] - LIFE: [ {hp} ]");
-                TShock.Log.ConsoleInfo($"[ + ] - MANA: [ {mana} ]");
-                TShock.Log.ConsoleInfo($"###################################################");
-            }
-            else
-            {
-
-                loginTimes[args.Who] = DateTime.UtcNow; // Registrar tiempo de inicio
-                TShock.Log.ConsoleInfo($"###################################################");
-                TShock.Log.ConsoleInfo($"#         J O I N E D - N E W P L A Y E R         #");
-                TShock.Log.ConsoleInfo($"###################################################");
-                TShock.Log.ConsoleInfo($"[ InfoPlayer ] PLAYER: {playerName} ]");
-                TShock.Log.ConsoleInfo($"[ + ] - DEVICE: [ {Platforms[args.Who]} ]");
-                TShock.Log.ConsoleInfo($"[ + ] - IP: [ {playerIP} ]");
-                TShock.Log.ConsoleInfo($"[ + ] - COUNTRY: [ {playerCountry} ]");
-                TShock.Log.ConsoleInfo($"[ + ] - TEAM: [ {playerTeam} ]");
-                TShock.Log.ConsoleInfo($"[ + ] - GROUP: [ {playerGroup} ]");
-                TShock.Log.ConsoleInfo($"[ + ] - SELECTED ITEM: [ [i:{playerSelectedItem}]");
-                TShock.Log.ConsoleInfo($"[ + ] - LIFE: [ {hp} ]");
-                TShock.Log.ConsoleInfo($"[ + ] - MANA: [ {mana} ]");
-                TShock.Log.ConsoleInfo($"###################################################");
-            }
+            // Sección de estadísticas de vida y maná
+            TShock.Log.ConsoleInfo($"  [Stats] LIFE: {currentLife}/{maxLife}");
+            TShock.Log.ConsoleInfo($"  [Stats] MANA: {currentMana}/{maxMana}");
+            TShock.Log.ConsoleInfo($"  [Stats] DEFE: {defense}");
+            TShock.Log.ConsoleInfo($"╚═══════════════════════════════════════════════╝");
         }
 
-        
+
         // #####################################################################################################
         // #####################################################################################################
         //                          P L A Y E R S    -   P L A T T F O R M  D E T E C T O R

@@ -84,9 +84,9 @@ namespace CheckUpdates
             else
             {
                 TShock.Log.ConsoleInfo($"╔════════════════════════════════════════════════╗");
-               TShock.Log.ConsoleError($"║ [ GetInfoPlayers ] Plugin is no up to date!!!  ║");
-                TShock.Log.ConsoleInfo($"║      INSTALLED: {AvilableVersion}                         ║");
-                TShock.Log.ConsoleInfo($"║      AVAILABLE: {VersionInstalled}                       ║");
+                TShock.Log.ConsoleError($"║ [ GetInfoPlayers ] Plugin is no up to date!!!  ║");
+                TShock.Log.ConsoleInfo($"║      INSTALLED: {AvilableVersion}                          ║");
+                TShock.Log.ConsoleInfo($"║      AVAILABLE: {VersionInstalled}                          ║");
                 TShock.Log.ConsoleInfo($"║                                                ║");
                 TShock.Log.ConsoleInfo($"║  Please visit to download the latest version.  ║");
                 TShock.Log.ConsoleInfo($"║  https://github.com/itsFrankV22/PlayerGetInfo  ║");

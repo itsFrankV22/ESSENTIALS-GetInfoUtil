@@ -1,7 +1,5 @@
 ﻿using InfoPlayers;
 using Newtonsoft.Json;
-using System;
-using System.IO;
 using TShockAPI;
 
 public class ConfigManager
@@ -23,6 +21,14 @@ public class ConfigManager
     public string JoinCustomMessage { get; set; }
     public bool ShowStatsOnPlayerJoin { get; set; }
 
+    // Comandos configurables
+    public string GetInfoCommandName { get; set; }
+    public string GetInfoCommandShort { get; set; }
+    public string GetInfoUserCommandName { get; set; }
+    public string GetInfoUserCommandShort { get; set; }
+    public string PingCommandName { get; set; }
+    public string PingCommandShort { get; set; }
+
     private static string ConfigPath => Path.Combine(TShock.SavePath, "GetinfoUtilConfig.json");
 
     public ConfigManager()
@@ -30,8 +36,16 @@ public class ConfigManager
         // Valores por defecto
         Version = "1.6.0";
         ShowJoinMessageInConsole = true;
-        JoinCustomMessage = "[ Y {platform} ][ {playerName} ] Joined From: [c/FFB000:{country}] Welcome!";
         ShowStatsOnPlayerJoin = true;
+        JoinCustomMessage = "[ [{difficulty} {platform} ][ {playerName} ] Joined From: [c/FFB000:{country}] Welcome!";
+
+        // Valores por defecto para los comandos
+        GetInfoCommandName = "getinfo";
+        GetInfoCommandShort = "gi";
+        GetInfoUserCommandName = "getinfouser";
+        GetInfoUserCommandShort = "giu";
+        PingCommandName = "gping";
+        PingCommandShort = "gp";
     }
 
     public void LoadConfig()
@@ -59,8 +73,16 @@ public class ConfigManager
                     Version = config.Version;
                     ShowJoinMessageInConsole = config.ShowJoinMessageInConsole;
                     ShowJoinCustomMessage = config.ShowJoinCustomMessage;
-                    JoinCustomMessage = config.JoinCustomMessage;
                     ShowStatsOnPlayerJoin = config.ShowStatsOnPlayerJoin;
+                    JoinCustomMessage = config.JoinCustomMessage;
+
+                    // Cargar comandos configurables
+                    GetInfoCommandName = config.GetInfoCommandName;
+                    GetInfoCommandShort = config.GetInfoCommandShort;
+                    GetInfoUserCommandName = config.GetInfoUserCommandName;
+                    GetInfoUserCommandShort = config.GetInfoUserCommandShort;
+                    PingCommandName = config.PingCommandName;
+                    PingCommandShort = config.PingCommandShort;
                 }
             }
             catch (Exception ex)
@@ -79,6 +101,7 @@ public class ConfigManager
             SaveConfig(); // Crear el archivo de configuración con valores predeterminados
         }
     }
+
     public void SaveConfig()
     {
         try
@@ -93,13 +116,21 @@ public class ConfigManager
             Console.WriteLine($"[ GetInfoUtil ] Error saving config: {ex.Message}");
         }
     }
+
     private void LoadDefaults()
     {
         Version = PlayerJoinInfo.Instance.Version.ToString(); // Usar la versión actual del plugin
         ShowJoinMessageInConsole = true;
         ShowJoinCustomMessage = true;
-        JoinCustomMessage = "[ {platform} ][ {playerName} ] Joined From: [c/FFB000:{country}] Welcome!";
         ShowStatsOnPlayerJoin = true;
-    }
+        JoinCustomMessage = " [ {difficulty} ][ {platform} ][ {playerName} ] Joined From: [c/FFB000:{country}] Welcome!";
 
+        // Valores por defecto para los comandos
+        GetInfoCommandName = "getinfo";
+        GetInfoCommandShort = "gi";
+        GetInfoUserCommandName = "getinfouser";
+        GetInfoUserCommandShort = "giu";
+        PingCommandName = "gping";
+        PingCommandShort = "gp";
+    }
 }

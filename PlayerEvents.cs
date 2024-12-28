@@ -4,6 +4,10 @@ using TerrariaApi.Server;
 using TShockAPI;
 using Terraria;
 using TShockAPI.Hooks;
+using IL.Terraria.Utilities;
+using System.Net.Sockets;
+using System.Net;
+using System.Threading.Channels;
 
 
 namespace InfoPlayers
@@ -11,6 +15,96 @@ namespace InfoPlayers
     public partial class PlayerJoinInfo
     {
         private ConfigManager _configManager;
+
+
+        private PingData[] PlayerPing { get; set; }
+        public class PingData
+        {
+            public TimeSpan? LastPing;
+            internal PingDetails?[] RecentPings = new PingDetails?[Terraria.Main.item.Length];
+        }
+        internal class PingDetails
+        {
+            internal Channel<int>? Channel;
+            internal DateTime Start = DateTime.Now;
+            internal DateTime? End = null;
+        }
+
+        public async Task<TimeSpan> Ping(TSPlayer player)
+        {
+            return await Ping(player, new CancellationTokenSource(1000).Token);
+        }
+
+        public async Task<TimeSpan> Ping(TSPlayer player, CancellationToken token)
+        {
+            var pingdata = PlayerPing[player.Index];
+            if (pingdata == null) return TimeSpan.MaxValue;
+
+            var inv = -1;
+            for (var i = 0; i < Terraria.Main.item.Length; i++)
+                if (Terraria.Main.item[i] != null)
+                    if (!Terraria.Main.item[i].active || Terraria.Main.item[i].playerIndexTheItemIsReservedFor == 255)
+                    {
+                        if (pingdata.RecentPings[i]?.Channel == null)
+                        {
+                            inv = i;
+                            break;
+                        }
+                    }
+
+            if (inv == -1) return TimeSpan.MaxValue;
+
+            var pd = pingdata.RecentPings[inv] ??= new PingDetails();
+
+            pd.Channel ??= Channel.CreateBounded<int>(new BoundedChannelOptions(30)
+            {
+                SingleReader = true,
+                SingleWriter = true
+            });
+
+
+            Terraria.NetMessage.TrySendData((int)PacketTypes.RemoveItemOwner, player.Index, -1, null, inv);
+
+            await pd.Channel.Reader.ReadAsync(token);
+            pd.Channel = null;
+
+            return (pingdata.LastPing = pd.End!.Value - pd.Start).Value;
+        }
+
+        private void Hook_Ping_GetData(GetDataEventArgs args)
+        {
+            if (args.Handled) return;
+            if (args.MsgID != PacketTypes.ItemOwner) return;
+            var user = TShock.Players[args.Msg.whoAmI];
+            if (user == null) return;
+            using (BinaryReader date = new BinaryReader(new MemoryStream(args.Msg.readBuffer, args.Index, args.Length)))
+            {
+                int iid = date.ReadInt16();
+                int pid = date.ReadByte();
+                if (pid != 255) return;
+                var pingresponse = PlayerPing[args.Msg.whoAmI];
+                var ping = pingresponse?.RecentPings[iid];
+                if (ping != null)
+                {
+                    ping.End = DateTime.Now;
+                    ping.Channel!.Writer.TryWrite(iid);
+                }
+            }
+        }
+        private string GetLocalIPAddress()
+        {
+            foreach (var ip in Dns.GetHostAddresses(Dns.GetHostName()))
+            {
+                if (ip.AddressFamily == AddressFamily.InterNetwork)
+                {
+                    return ip.ToString();
+                }
+            }
+            return "127.0.0.1";
+        }
+
+
+
 
 
         private void OnPlayerJoin(GreetPlayerEventArgs args)
@@ -47,35 +141,39 @@ namespace InfoPlayers
                 {
 
                     Task.Delay(1000).ContinueWith(_ =>
-                {
-                    string name = player.Name;
-                    int maxHp = player.TPlayer.statLifeMax2;  // Vida máxima
-                    int currentHp = player.TPlayer.statLife; // Vida actual
-                    int maxMana = player.TPlayer.statManaMax2; // Maná máximo
-                    int currentMana = player.TPlayer.statMana; // Maná actual
-                    int defense = player.TPlayer.statDefense; // Defensa actual
+                    {
+                        string name = player.Name;
+                        int maxHp = player.TPlayer.statLifeMax2;  // Vida máxima
+                        int currentHp = player.TPlayer.statLife; // Vida actual
+                        int maxMana = player.TPlayer.statManaMax2; // Maná máximo
+                        int currentMana = player.TPlayer.statMana; // Maná actual
+                        int defense = player.TPlayer.statDefense; // Defensa actual
 
-                    string playerCountry = player.Country ?? "Unknown";
+                        string playerCountry = player.Country ?? "Unknown";
 
-                    player.SendInfoMessage($"[ GetInfoUtil ] by {Author} v{Version} please follow on YouTube and Discord");
-                    player.SendInfoMessage("-  Y O U R  -  S T A T S -");
-                    player.SendInfoMessage($"  [i:29] [c/FF6666:LIFE:] [ {currentHp}/{maxHp} ]");
-                    player.SendInfoMessage($"  [i:109] [c/00E5FF:MANA:] [ {currentMana}/{maxMana} ]");
-                    player.SendInfoMessage($"  [i:938] [c/66B2FF:DEFENSE:] [ {defense} ]");
-                    player.SendInfoMessage($"  [i:4080] [c/FFCC66:COUNTRY:] [ {playerCountry} ]");
-                });
+                        player.SendInfoMessage($"[ GetInfoUtil ] by {Author} v{Version} please follow on YouTube and Discord");
+                        player.SendInfoMessage("-  Y O U R  -  S T A T S -");
+                        player.SendInfoMessage($"  [i:29] [c/FF6666:LIFE:] [ {currentHp}/{maxHp} ]");
+                        player.SendInfoMessage($"  [i:109] [c/00E5FF:MANA:] [ {currentMana}/{maxMana} ]");
+                        player.SendInfoMessage($"  [i:938] [c/66B2FF:DEFENSE:] [ {defense} ]");
+                        player.SendInfoMessage($"  [i:4080] [c/FFCC66:COUNTRY:] [ {playerCountry} ]");
+                    });
                 }
+
+
 
                 if (ConfigManager.Instance.ShowJoinCustomMessage)
                 {
                     string customMessage = ConfigManager.Instance.JoinCustomMessage
+                        .Replace("{difficulty}", diff[player.Difficulty])
                         .Replace("{playerName}", player.Name)
                         .Replace("{country}", player.Country ?? "Unknown")
                         .Replace("{platform}", InfoTool.GetPlatform(player));
 
-                    var messageColor = new Microsoft.Xna.Framework.Color(0, 255, 255);
+                    var messageColor = new Microsoft.Xna.Framework.Color(255, 255, 255);
                     TSPlayer.All.SendMessage(customMessage, messageColor);
-                 }
+                }
+
             }
         }
 
@@ -109,9 +207,9 @@ namespace InfoPlayers
                 TShock.Log.ConsoleInfo($"  [Stats] DEFE: {player.TPlayer.statDefense}");
                 TShock.Log.ConsoleInfo("╚═══════════════════════════════════════════════╝");
             }
-            }
+        }
 
-            private bool OnGetData(On.OTAPI.Hooks.MessageBuffer.orig_InvokeGetData orig, MessageBuffer instance, ref byte packetId, ref int readOffset, ref int start, ref int length, ref int messageType, int maxPackets)
+        private bool OnGetData(On.OTAPI.Hooks.MessageBuffer.orig_InvokeGetData orig, MessageBuffer instance, ref byte packetId, ref int readOffset, ref int start, ref int length, ref int messageType, int maxPackets)
         {
             try
             {

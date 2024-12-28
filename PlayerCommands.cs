@@ -1,12 +1,36 @@
 ﻿using TShockAPI;
 using Newtonsoft.Json;
 using System.IO;
+using TerrariaApi.Server;
+using MySqlX.XDevAPI.Common;
 
 namespace InfoPlayers
 {
     public partial class PlayerJoinInfo
     {
         private Dictionary<string, PlayerData> _playerData = PlayerData.LoadData(); // Cargar los datos desde el archivo JSON
+
+        private async void InfoPing(CommandArgs args)
+        {
+            try
+            {
+                if (PlayerPing[args.Player.Index] != null)
+                {
+                    args.Player.SendErrorMessage("Ping in progress");
+                    return;
+                }
+                PlayerPing[args.Player.Index] = new PingData();
+                var player = args.Player;
+                var result = await Ping(player);
+                player.SendSuccessMessage($"YourPing: {result.TotalMilliseconds:F1}ms");
+            }
+            catch (Exception e)
+            {
+                args.Player.SendErrorMessage("Ping Error!");
+                TShockAPI.TShock.Log.Error(e.ToString());
+            }
+            PlayerPing[args.Player.Index] = null;
+        }
 
         private void InfoCommandUser(CommandArgs args)
         {
@@ -92,6 +116,7 @@ namespace InfoPlayers
 
         private void ShowPlayerInfo(TSPlayer targetPlayer, TSPlayer requestingPlayer, bool isUserInfo)
         {
+
             string playerCountry = targetPlayer.Country ?? "Unknown";
             string playerSelectedItem = targetPlayer.SelectedItem?.netID.ToString() ?? "None";
             string name = targetPlayer.Name;
@@ -104,6 +129,9 @@ namespace InfoPlayers
             string playerGroup = targetPlayer.Group.Name;
             string playerGroupPrefix = targetPlayer.Group.Prefix;
             string playerGroupSuffix = targetPlayer.Group.Suffix;
+            string difficulty = targetPlayer.Difficulty.ToString();
+
+
 
             if (isUserInfo)
             {
@@ -125,8 +153,8 @@ namespace InfoPlayers
                 requestingPlayer.SendInfoMessage("       I N F O - P L A Y E R         ");
                 requestingPlayer.SendInfoMessage($"  [ InfoPlayer ] PLAYER: [ {name} ]");
                 requestingPlayer.SendInfoMessage($"  [ + ] - DEVICE: [ {platform} ]");
+                requestingPlayer.SendInfoMessage($"  [ + ] - DEVICE: [ {difficulty} ]");
                 requestingPlayer.SendInfoMessage($"  [ + ] - IP: [ {targetPlayer.IP} ]");
-                requestingPlayer.SendInfoMessage($"  [ + ] - UUID: [ {targetPlayer.UUID} ]");
                 requestingPlayer.SendInfoMessage($"  [ + ] - COUNTRY: [ {playerCountry} ]");
                 requestingPlayer.SendInfoMessage($"  [ + ] - TEAM: [ {targetPlayer.Team} ]");
                 requestingPlayer.SendInfoMessage($"  [ + ] - S&P: [ {playerGroupPrefix}{playerGroupSuffix} ]");
@@ -144,6 +172,7 @@ namespace InfoPlayers
         {
             if (isUserInfo)
             {
+
                 requestingPlayer.SendInfoMessage("");
                 requestingPlayer.SendInfoMessage("         U S E R - I N F O       ");
                 requestingPlayer.SendInfoMessage($"  [ InfoPlayer ] PLAYER: [ {playerData.PlayerName} ]");
